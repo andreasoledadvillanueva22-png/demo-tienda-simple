@@ -4,25 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Andrea Tienda Online - Bienestar y Hogar | Misiones</title>
-    <meta name="description" content="Productos seleccionados para tu hogar y bienestar. Envíos a toda Misiones. Compra segura con Mercado Pago o WhatsApp.">
+    <meta name="description" content="Productos seleccionados para tu hogar y bienestar. Envíos a toda Argentina. Compra segura con Mercado Pago o WhatsApp.">
     
-    <!-- Tailwind CSS (vía CDN para demo) -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="apple-touch-icon" href="images/logo.png">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Configuración Tailwind -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#DC2626',    /* Rojo Andrea */
-                        secondary: '#16A34A',   /* Verde Andrea */
+                        primary: '#DC2626',
+                        secondary: '#16A34A',
                         dark: '#1E293B',
                         light: '#F8FAFC'
                     },
@@ -35,23 +34,15 @@
     </script>
     
     <style>
-        /* Animaciones suaves */
         * { scroll-behavior: smooth; }
-        
-        /* Efecto hover en productos */
         .product-card { transition: all 0.3s ease; }
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
-        
-        /* Animación del carrito */
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
         .cart-bounce { animation: bounce 0.5s ease; }
-        
-        /* Overlay del modal */
         .modal-overlay { background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
-        
-        /* Badge de oferta */
         .badge { animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+        .line-through-custom { text-decoration: line-through; opacity: 0.6; }
     </style>
 </head>
 <body class="font-sans antialiased text-slate-800 bg-white">
@@ -59,16 +50,14 @@
     <!-- ========== NAVBAR ========== -->
     <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <!-- Logo -->
             <a href="#" class="flex items-center gap-3 group">
-                <div class="w-11 h-11 bg-primary rounded-xl flex items-center justify-center text-white font-black text-xl group-hover:scale-110 transition-transform">A</div>
+                <img src="images/logo.png" alt="Andrea Tienda Logo" class="w-11 h-11 object-contain rounded-xl group-hover:scale-110 transition-transform">
                 <div>
                     <span class="text-xl font-extrabold text-dark tracking-tight">ANDREA</span>
                     <span class="text-xl font-extrabold text-secondary">TIENDA</span>
                 </div>
             </a>
             
-            <!-- Desktop Menu -->
             <div class="hidden md:flex items-center gap-8">
                 <a href="#catalogo" class="font-medium text-slate-600 hover:text-primary transition-colors">Catálogo</a>
                 <a href="#como-funciona" class="font-medium text-slate-600 hover:text-primary transition-colors">Cómo Funciona</a>
@@ -76,15 +65,12 @@
                 <a href="#contacto" class="font-medium text-slate-600 hover:text-primary transition-colors">Contacto</a>
             </div>
             
-            <!-- Cart & WhatsApp -->
             <div class="flex items-center gap-4">
-                <!-- Cart Button -->
                 <button onclick="toggleCart()" class="relative p-3 bg-slate-100 hover:bg-primary hover:text-white rounded-xl transition-all group" aria-label="Ver carrito">
                     <i class="fas fa-shopping-cart text-lg"></i>
                     <span id="cart-count" class="absolute -top-2 -right-2 bg-secondary text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">0</span>
                 </button>
                 
-                <!-- WhatsApp Button (Desktop) -->
                 <a href="https://wa.me/5493743417659?text=¡Hola%20Andrea!%20Necesito%20ayuda%20con%20mi%20pedido." target="_blank" class="hidden md:flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-5 py-2.5 rounded-xl font-semibold transition-all shadow-lg shadow-green-200/50">
                     <i class="fab fa-whatsapp text-lg"></i>
                     <span>Consultar</span>
@@ -95,18 +81,16 @@
 
     <!-- ========== HERO SECTION ========== -->
     <section class="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
-        <!-- Background decorativo -->
         <div class="absolute inset-0 bg-gradient-to-br from-red-50 via-white to-green-50"></div>
         <div class="absolute top-20 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 left-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl"></div>
         
         <div class="container mx-auto px-4 relative z-10">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <!-- Texto -->
                 <div class="space-y-8 text-center lg:text-left">
                     <div class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold">
                         <i class="fas fa-truck"></i>
-                        <span>Envío GRATIS en compras +$15.000</span>
+                        <span>Envío GRATIS en productos seleccionados +$55.000</span>
                     </div>
                     
                     <h1 class="text-4xl md:text-6xl font-black leading-tight text-dark">
@@ -130,7 +114,6 @@
                         </a>
                     </div>
                     
-                    <!-- Trust badges -->
                     <div class="flex flex-wrap gap-6 justify-center lg:justify-start pt-4">
                         <div class="flex items-center gap-2 text-sm text-slate-600">
                             <i class="fas fa-shield-check text-secondary"></i>
@@ -147,18 +130,10 @@
                     </div>
                 </div>
                 
-                <!-- Imagen Hero -->
                 <div class="relative flex justify-center">
                     <div class="relative">
-                        <!-- Efecto de sombra -->
                         <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent z-10"></div>
-                        
-                        <!-- Imagen principal (placeholder - reemplazar con tu foto real) -->
-                        <img src="https://images.unsplash.com/photo-1584308972272-9cf4b93c8c65?w=600&h=600&fit=crop" 
-                             alt="Productos Andrea Tienda" 
-                             class="relative z-0 w-80 h-80 md:w-[450px] md:h-[450px] object-cover rounded-[2.5rem] shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
-                        
-                        <!-- Badge flotante -->
+                        <img src="images/Hero.webp" alt="Productos Andrea Tienda" class="relative z-0 w-80 h-80 md:w-[450px] md:h-[450px] object-cover rounded-[2.5rem] shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
                         <div class="absolute -top-4 -right-4 bg-secondary text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg badge">
                             🔥 Nuevos Productos
                         </div>
@@ -177,7 +152,6 @@
             </div>
             
             <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <!-- Paso 1 -->
                 <div class="bg-white p-8 rounded-3xl shadow-lg text-center group hover:-translate-y-2 transition-transform">
                     <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
                         <span class="text-2xl font-black text-primary group-hover:text-white">1</span>
@@ -186,7 +160,6 @@
                     <p class="text-slate-600">Explorá nuestro catálogo y agregá al carrito lo que necesites.</p>
                 </div>
                 
-                <!-- Paso 2 -->
                 <div class="bg-white p-8 rounded-3xl shadow-lg text-center group hover:-translate-y-2 transition-transform">
                     <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
                         <span class="text-2xl font-black text-primary group-hover:text-white">2</span>
@@ -195,30 +168,25 @@
                     <p class="text-slate-600">Checkout seguro con todas las tarjetas, efectivo o transferencia.</p>
                 </div>
                 
-                <!-- Paso 3 -->
                 <div class="bg-white p-8 rounded-3xl shadow-lg text-center group hover:-translate-y-2 transition-transform">
                     <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
                         <span class="text-2xl font-black text-primary group-hover:text-white">3</span>
                     </div>
                     <h3 class="text-xl font-bold text-dark mb-3">Recibí en tu casa</h3>
-                    <p class="text-slate-600">Te enviamos a todo Misiones con seguimiento en tiempo real.</p>
+                    <p class="text-slate-600">Te enviamos a todo Argentina con seguimiento en tiempo real.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== CATÁLOGO DE PRODUCTOS ========== -->
+    <!-- ========== CATÁLOGO ========== -->
     <section id="catalogo" class="py-20 bg-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-black text-dark mb-4">Nuestros <span class="text-primary">Productos</span> Destacados</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto">Seleccionamos lo mejor en tecnología para el hogar y suplementos naturales para vos.</p>
+                <p class="text-slate-600 max-w-2xl mx-auto">Seleccionamos lo mejor en tecnología para el hogar y suplementos naturales.</p>
             </div>
-            
-            <!-- Grid de productos -->
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid">
-                <!-- Los productos se generan con JavaScript -->
-            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid"></div>
         </div>
     </section>
 
@@ -227,11 +195,10 @@
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-black text-dark mb-4">Lo que dicen <span class="text-secondary">nuestros clientes</span></h2>
-                <p class="text-slate-600 max-w-2xl mx-auto">Clientes de toda Misiones que confían en la calidad y el servicio de Andrea Tienda.</p>
+                <p class="text-slate-600 max-w-2xl mx-auto">Clientes de toda Argentina que confían en nosotros.</p>
             </div>
             
             <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <!-- Testimonio 1 -->
                 <div class="bg-white p-8 rounded-3xl shadow-lg relative">
                     <i class="fas fa-quote-left text-4xl text-primary/20 absolute top-6 left-6"></i>
                     <div class="flex gap-1 text-yellow-400 mb-4 pl-8">
@@ -247,7 +214,6 @@
                     </div>
                 </div>
                 
-                <!-- Testimonio 2 -->
                 <div class="bg-white p-8 rounded-3xl shadow-lg relative">
                     <i class="fas fa-quote-left text-4xl text-primary/20 absolute top-6 left-6"></i>
                     <div class="flex gap-1 text-yellow-400 mb-4 pl-8">
@@ -266,11 +232,11 @@
         </div>
     </section>
 
-    <!-- ========== CONTACTO / CTA FINAL ========== -->
+    <!-- ========== CONTACTO ========== -->
     <section id="contacto" class="py-20 bg-dark text-white">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-5xl font-black mb-6">¿Lista para hacer tu <span class="text-primary italic">vida más cómoda</span>?</h2>
-            <p class="text-slate-300 max-w-2xl mx-auto mb-10 text-lg">Hacé clic abajo para hablar directamente conmigo por WhatsApp y coordinar tu pedido hoy mismo.</p>
+            <p class="text-slate-300 max-w-2xl mx-auto mb-10 text-lg">Hacé clic abajo para hablar directamente conmigo por WhatsApp.</p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="https://wa.me/5493743417659?text=¡Hola%20Andrea!%20Quiero%20hacer%20un%20pedido." target="_blank" class="inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20bd5a] text-white text-xl font-bold px-10 py-5 rounded-2xl shadow-2xl shadow-green-900/30 hover:-translate-y-1 transition-all">
@@ -289,11 +255,8 @@
 
     <!-- ========== CARRITO MODAL ========== -->
     <div id="cart-modal" class="fixed inset-0 z-[100] hidden">
-        <!-- Overlay -->
         <div class="modal-overlay absolute inset-0" onclick="toggleCart()"></div>
-        
-        <!-- Modal Content -->
-        <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col transform transition-transform duration-300" id="cart-panel">
+        <div class="absolute right-0 top-0 h-full w-full max-w-2xl bg-white shadow-2xl flex flex-col transform transition-transform duration-300" id="cart-panel">
             <!-- Header -->
             <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                 <h3 class="text-xl font-bold text-dark">Tu Carrito</h3>
@@ -303,31 +266,88 @@
             </div>
             
             <!-- Cart Items -->
-            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
-                <!-- Items se generan con JS -->
-                <p class="text-center text-slate-500 py-8">Tu carrito está vacío 🛒</p>
-            </div>
+            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
             
-            <!-- Footer -->
-            <div class="p-6 border-t border-slate-100 bg-slate-50 space-y-4">
-                <!-- Total -->
-                <div class="flex justify-between items-center text-lg">
-                    <span class="font-medium text-slate-600">Total:</span>
-                    <span id="cart-total" class="font-black text-2xl text-primary">$0</span>
+            <!-- Footer con formulario -->
+            <div class="p-6 border-t border-slate-100 bg-slate-50 space-y-4 max-h-[50vh] overflow-y-auto">
+                <!-- Datos del Cliente -->
+                <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-3">
+                    <h4 class="font-bold text-dark flex items-center gap-2">
+                        <i class="fas fa-user text-primary"></i>
+                        Datos de Envío (Obligatorio)
+                    </h4>
+                    
+                    <div class="grid grid-cols-1 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Nombre Completo *</label>
+                            <input type="text" id="customer-name" placeholder="Ej: María González" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:border-primary" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">DNI *</label>
+                            <input type="number" id="customer-dni" placeholder="Ej: 12345678" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:border-primary" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Dirección Completa *</label>
+                            <input type="text" id="customer-address" placeholder="Calle, número, piso/depto, localidad" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:border-primary" required>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Código Postal *</label>
+                                <input type="number" id="customer-zipcode" placeholder="Ej: 3384" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:border-primary" onchange="calculateShippingByZip()" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Provincia *</label>
+                                <select id="customer-province" onchange="calculateShippingByZip()" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:border-primary" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="misiones">Misiones</option>
+                                    <option value="buenos_aires">Buenos Aires</option>
+                                    <option value="cordoba">Córdoba</option>
+                                    <option value="santa_fe">Santa Fe</option>
+                                    <option value="otra">Otra provincia</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- Checkout Buttons -->
-                <div class="space-y-3">
-                    <!-- Mercado Pago (Demo) -->
+                <!-- Resumen de compra -->
+                <div class="space-y-2 pt-2">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-600">Subtotal:</span>
+                        <span id="cart-subtotal" class="font-medium">$0</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-600">Envío:</span>
+                        <div class="text-right">
+                            <span id="shipping-original" class="line-through-custom text-slate-500 text-xs hidden">$0</span>
+                            <span id="shipping-cost" class="font-medium">$0</span>
+                        </div>
+                    </div>
+                    
+                    <div id="free-shipping-notice" class="hidden bg-green-100 text-green-800 px-3 py-2 rounded-lg text-xs font-semibold text-center">
+                        🎉 ¡Tenés envío GRATIS!
+                    </div>
+                    
+                    <div class="flex justify-between items-center text-lg pt-2 border-t border-slate-200">
+                        <span class="font-medium text-slate-600">Total:</span>
+                        <span id="cart-total" class="font-black text-2xl text-primary">$0</span>
+                    </div>
+                </div>
+                
+                <!-- Botones de pago -->
+                <div class="space-y-3 pt-2">
                     <button onclick="checkoutMercadoPago()" class="w-full bg-[#009EE3] hover:bg-[#008ecc] text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-200/50">
                         <i class="fas fa-credit-card"></i>
                         Pagar con Mercado Pago
                     </button>
                     
-                    <!-- WhatsApp Alternative -->
                     <button onclick="checkoutWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 transition-all">
                         <i class="fab fa-whatsapp"></i>
-                        Pedir por WhatsApp
+                        Finalizar pedido por WhatsApp
                     </button>
                 </div>
                 
@@ -338,7 +358,21 @@
         </div>
     </div>
 
-    <!-- ========== TOAST NOTIFICATION ========== -->
+    <!-- ========== PRODUCT DETAIL MODAL ========== -->
+    <div id="product-detail-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="modal-overlay absolute inset-0" onclick="closeProductDetail()"></div>
+        <div class="absolute inset-4 md:inset-10 bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h3 class="text-xl font-bold text-dark">Detalle del Producto</h3>
+                <button onclick="closeProductDetail()" class="p-2 hover:bg-slate-100 rounded-lg transition-colors">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <div id="product-detail-content" class="flex-1 overflow-y-auto p-6"></div>
+        </div>
+    </div>
+
+    <!-- ========== TOAST ========== -->
     <div id="toast" class="fixed bottom-6 right-6 z-[110] bg-dark text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300">
         <i class="fas fa-check-circle text-secondary text-xl"></i>
         <span id="toast-message">Producto agregado al carrito</span>
@@ -348,42 +382,80 @@
     <script>
         // ===== CONFIGURACIÓN =====
         const WHATSAPP_NUMBER = "5493743417659";
-        const MERCADO_PAGO_DEMO = true; // Cambiar a false para producción
+        const MERCADO_PAGO_DEMO = true;
         
-        // ===== PRODUCTOS (6 productos) =====
+        // Costos de envío por zona
+        const SHIPPING_COSTS = {
+            misiones: 8500,
+            buenos_aires: 13500,
+            cordoba: 13500,
+            santa_fe: 13500,
+            otra: 15000,
+            free: 0
+        };
+        
+        const FREE_SHIPPING_THRESHOLD = 55000;
+        
+        // Códigos postales de Misiones (ejemplos)
+        const MISIONES_ZIP_CODES = [3300, 3311, 3315, 3316, 3317, 3318, 3319, 3320, 3321, 3322, 3324, 3325, 3326, 3328, 3329, 3330, 3332, 3334, 3336, 3340, 3342, 3344, 3346, 3348, 3350, 3352, 3353, 3354, 3355, 3356, 3357, 3358, 3359, 3360, 3361, 3364, 3365, 3367, 3368, 3369, 3370, 3372, 3374, 3376, 3377, 3379, 3380, 3381, 3382, 3384, 3385, 3386, 3387];
+        
+        // ===== PRODUCTOS =====
         const products = [
-    {
-        id: 1,
-        name: "Kit de Limpieza Pro 3 en 1",
-        description: "Limpieza express inalámbrica para azulejos, cocina y sillones. ¡80% OFF en la 2da unidad!",
-        price: 29003,
-        image: "images/imagesproducto1.webp",  // ← Sin .jpg
-        tag: "ENVÍO GRATIS",
-        tagColor: "bg-primary"
-    },
-    {
-        id: 2,
-        name: "Pack x3 Citrato de Magnesio",
-        description: "Mineral esencial para el bienestar diario. Incluye de regalo un Porta Esponjas exclusivo.",
-        price: 19900,
-        image: "images/imagesproducto2.webp",  // ← Sin .jpg
-        tag: "MÁS ELEGIDO",
-        tagColor: "bg-secondary"
-    },
-    {
-        id: 3,
-        name: "Cepillo a Vapor Pro",
-        description: "Eliminá hasta el 90% del pelo suelto de tu mascota sin tirones. Incluye guía de regalo.",
-        price: 21500,
-        image: "images/imagesproducto3.png",  // ← Este está bien
-        tag: "NOVEDAD",
-        tagColor: "bg-purple-600"
-    },
-    // ... productos 4, 5, 6
-];
+            {
+                id: 1,
+                name: "PROMO 2X1 Kit de Limpieza Pro 3 en 1",
+                description: "Limpieza express inalámbrica para azulejos, cocina y sillones. ¡80% OFF en la 2da unidad!",
+                price: 34900,
+                images: [
+                    "images/products/producto1/imagesproducto1main.webp",
+                    "images/products/producto1/foto2.webp",
+                    "images/products/producto1/foto3.webp"
+                ],
+                tag: "ENVÍO GRATIS",
+                tagColor: "bg-primary",
+                freeShipping: true
+            },
+            {
+                id: 2,
+                name: "Pack x3 Citrato de Magnesio",
+                description: "Mineral esencial para el bienestar diario. Incluye de regalo un Porta Esponjas exclusivo.",
+                price: 19900,
+                images: [
+                    "images/products/producto2/main.webp",
+                    "images/products/producto2/foto2.webp",
+                    "images/products/producto2/foto3.webp"
+                ],
+                tag: "NOVEDAD",
+                tagColor: "bg-secondary",
+                freeShipping: false
+            },
+            {
+                id: 3,
+                name: "Cepillo a Vapor Pro",
+                description: "Eliminá hasta el 90% del pelo suelto de tu mascota sin tirones. Incluye guía de regalo.",
+                price: 29599,
+                images: [
+                    "images/products/producto3/main.webp",
+                    "images/products/producto3/foto2.png",
+                    "images/products/producto3/foto3.png"
+                ],
+                tag: "ENVÍO GRATIS",
+                tagColor: "bg-purple-600",
+                freeShipping: true
+            }
+        ];
 
-        // ===== ESTADO DEL CARRITO =====
+        // ===== ESTADO =====
         let cart = JSON.parse(localStorage.getItem('andrea-cart')) || [];
+        let selectedProduct = null;
+        let currentImageIndex = 0;
+        let customerData = {
+            name: '',
+            dni: '',
+            address: '',
+            zipcode: '',
+            province: ''
+        };
 
         // ===== INICIALIZACIÓN =====
         document.addEventListener('DOMContentLoaded', () => {
@@ -396,31 +468,24 @@
         function renderProducts() {
             const grid = document.getElementById('products-grid');
             grid.innerHTML = products.map(product => `
-                <div class="product-card bg-white border border-slate-100 rounded-3xl p-6 hover:shadow-2xl hover:border-primary/30 transition-all">
-                    <!-- Imagen -->
+                <div class="product-card bg-white border border-slate-100 rounded-3xl p-6 hover:shadow-2xl hover:border-primary/30 transition-all cursor-pointer" onclick="openProductDetail(${product.id})">
                     <div class="relative mb-6 overflow-hidden rounded-2xl aspect-square">
-                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+                        <img src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" loading="lazy">
                         <span class="absolute top-4 left-4 ${product.tagColor} text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-tighter shadow-lg">${product.tag}</span>
-                        
-                        <!-- Quick Add Button -->
-                        <button onclick="addToCart(${product.id})" class="absolute bottom-4 right-4 w-10 h-10 bg-white/90 hover:bg-primary hover:text-white rounded-full flex items-center justify-center shadow-lg transition-all opacity-0 group-hover:opacity-100">
-                            <i class="fas fa-plus"></i>
-                        </button>
+                        <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <span class="bg-white text-dark px-6 py-3 rounded-full font-bold text-sm">Ver detalles</span>
+                        </div>
                     </div>
-                    
-                    <!-- Info -->
                     <div class="space-y-3">
                         <h3 class="text-lg font-bold text-dark">${product.name}</h3>
                         <p class="text-slate-600 text-sm leading-relaxed">${product.description}</p>
-                        
-                        <!-- Price & Actions -->
                         <div class="flex items-center justify-between pt-4 border-t border-slate-100">
                             <span class="text-2xl font-black text-primary">$${product.price.toLocaleString('es-AR')}</span>
                             <div class="flex gap-2">
-                                <button onclick="addToCart(${product.id})" class="p-3 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-xl transition-colors" title="Agregar al carrito">
+                                <button onclick="event.stopPropagation(); addToCart(${product.id})" class="p-3 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-xl transition-colors">
                                     <i class="fas fa-cart-plus"></i>
                                 </button>
-                                <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`¡Hola Andrea! Me interesa: ${product.name} - $${product.price.toLocaleString('es-AR')}`)}" target="_blank" class="p-3 bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366] hover:text-white rounded-xl transition-colors" title="Consultar por WhatsApp">
+                                <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`¡Hola Andrea! Me interesa: ${product.name}`)}" target="_blank" class="p-3 bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366] hover:text-white rounded-xl transition-colors" onclick="event.stopPropagation()">
                                     <i class="fab fa-whatsapp"></i>
                                 </a>
                             </div>
@@ -430,13 +495,95 @@
             `).join('');
         }
 
-        // ===== AGREGAR AL CARRITO =====
+        // ===== PRODUCT DETAIL =====
+        function openProductDetail(productId) {
+            selectedProduct = products.find(p => p.id === productId);
+            if (!selectedProduct) return;
+            currentImageIndex = 0;
+            renderProductDetail();
+            document.getElementById('product-detail-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProductDetail() {
+            document.getElementById('product-detail-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+            selectedProduct = null;
+        }
+
+        function changeImage(direction) {
+            if (!selectedProduct) return;
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) currentImageIndex = selectedProduct.images.length - 1;
+            if (currentImageIndex >= selectedProduct.images.length) currentImageIndex = 0;
+            renderProductDetail();
+        }
+
+        function renderProductDetail() {
+            if (!selectedProduct) return;
+            const container = document.getElementById('product-detail-content');
+            const currentImage = selectedProduct.images[currentImageIndex];
+            
+            container.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-8 max-h-[80vh] overflow-y-auto">
+                    <div class="space-y-4">
+                        <div class="relative aspect-square rounded-2xl overflow-hidden bg-slate-100">
+                            <img src="${currentImage}" alt="${selectedProduct.name}" class="w-full h-full object-cover">
+                            ${selectedProduct.images.length > 1 ? `
+                                <button onclick="changeImage(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-chevron-left text-dark"></i>
+                                </button>
+                                <button onclick="changeImage(1)" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-chevron-right text-dark"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                        ${selectedProduct.images.length > 1 ? `
+                            <div class="flex gap-2 overflow-x-auto">
+                                ${selectedProduct.images.map((img, idx) => `
+                                    <button onclick="currentImageIndex = ${idx}; renderProductDetail()" class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${idx === currentImageIndex ? 'border-primary' : 'border-slate-200'}">
+                                        <img src="${img}" class="w-full h-full object-cover">
+                                    </button>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="space-y-6">
+                        <div>
+                            <span class="${selectedProduct.tagColor} text-white text-xs font-bold px-3 py-1 rounded-full">${selectedProduct.tag}</span>
+                            <h2 class="text-3xl font-black text-dark mt-3">${selectedProduct.name}</h2>
+                            <p class="text-3xl font-black text-primary mt-2">$${selectedProduct.price.toLocaleString('es-AR')}</p>
+                        </div>
+                        <p class="text-slate-600 leading-relaxed">${selectedProduct.description}</p>
+                        <div class="space-y-3 pt-4 border-t border-slate-100">
+                            <div class="flex items-center gap-3 text-slate-600">
+                                <i class="fas fa-truck text-secondary"></i>
+                                <span>${selectedProduct.freeShipping ? 'Envío GRATIS incluido' : 'Envío a todo Argentina'}</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-slate-600">
+                                <i class="fas fa-shield-check text-secondary"></i>
+                                <span>Compra 100% segura</span>
+                            </div>
+                        </div>
+                        <div class="space-y-3 pt-6">
+                            <button onclick="addToCart(${selectedProduct.id}); closeProductDetail(); showToast('✅ Agregado al carrito')" class="w-full bg-primary hover:bg-red-700 text-white font-bold py-4 rounded-xl transition-all">
+                                <i class="fas fa-cart-plus mr-2"></i> Agregar al carrito
+                            </button>
+                            <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`¡Hola Andrea! Me interesa: ${selectedProduct.name}`)}" target="_blank" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2">
+                                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ===== CARRITO =====
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
             
             const existingItem = cart.find(item => item.id === productId);
-            
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
@@ -448,13 +595,11 @@
             renderCartItems();
             showToast(`✅ ${product.name} agregado al carrito`);
             
-            // Efecto visual en el ícono del carrito
             const cartBtn = document.querySelector('[aria-label="Ver carrito"]');
             cartBtn.classList.add('cart-bounce');
             setTimeout(() => cartBtn.classList.remove('cart-bounce'), 500);
         }
 
-        // ===== ACTUALIZAR CONTADOR DEL CARRITO =====
         function updateCartCount() {
             const count = cart.reduce((sum, item) => sum + item.quantity, 0);
             const badge = document.getElementById('cart-count');
@@ -463,25 +608,65 @@
             badge.classList.toggle('opacity-100', count > 0);
         }
 
-        // ===== RENDERIZAR ITEMS DEL CARRITO =====
+        function calculateShippingByZip() {
+            const zipcode = parseInt(document.getElementById('customer-zipcode').value) || 0;
+            const province = document.getElementById('customer-province').value;
+            
+            // Si es Misiones (por código postal o provincia)
+            if (MISIONES_ZIP_CODES.includes(zipcode) || province === 'misiones') {
+                document.getElementById('customer-province').value = 'misiones';
+            }
+            
+            renderCartItems();
+        }
+
         function renderCartItems() {
             const container = document.getElementById('cart-items');
-            const totalEl = document.getElementById('cart-total');
+            const subtotalEl = document.getElementById('cart-subtotal');
+            const shippingCostEl = document.getElementById('shipping-cost');
+            const shippingOriginalEl = document.getElementById('shipping-original');
+            const freeShippingNotice = document.getElementById('free-shipping-notice');
             
             if (cart.length === 0) {
                 container.innerHTML = '<p class="text-center text-slate-500 py-8">Tu carrito está vacío 🛒</p>';
-                totalEl.textContent = '$0';
+                subtotalEl.textContent = '$0';
+                shippingCostEl.textContent = '$0';
+                shippingOriginalEl.classList.add('hidden');
+                freeShippingNotice.classList.add('hidden');
+                updateTotal(0, 0);
                 return;
             }
             
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // Verificar si TODOS los productos tienen envío gratis
+            const allProductsFreeShipping = cart.every(item => item.freeShipping);
+            const subtotalExceedsThreshold = subtotal >= FREE_SHIPPING_THRESHOLD;
+            const hasFreeShipping = allProductsFreeShipping || subtotalExceedsThreshold;
+            
+            // Calcular envío
+            let shippingCost = 0;
+            let shippingOriginal = 0;
+            
+            if (hasFreeShipping) {
+                shippingCost = 0;
+                shippingOriginal = getShippingCostFromForm();
+                freeShippingNotice.classList.remove('hidden');
+                shippingOriginalEl.classList.remove('hidden');
+            } else {
+                shippingCost = getShippingCostFromForm();
+                shippingOriginal = 0;
+                freeShippingNotice.classList.add('hidden');
+                shippingOriginalEl.classList.add('hidden');
+            }
             
             container.innerHTML = cart.map(item => `
                 <div class="flex gap-4 p-4 bg-slate-50 rounded-2xl">
-                    <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-xl">
+                    <img src="${item.images[0]}" alt="${item.name}" class="w-20 h-20 object-cover rounded-xl">
                     <div class="flex-1">
                         <h4 class="font-semibold text-dark text-sm">${item.name}</h4>
                         <p class="text-primary font-bold">$${item.price.toLocaleString('es-AR')}</p>
+                        ${item.freeShipping ? '<p class="text-xs text-green-600 font-semibold"><i class="fas fa-check-circle"></i> Envío GRATIS</p>' : ''}
                         <div class="flex items-center gap-3 mt-2">
                             <button onclick="updateQuantity(${item.id}, -1)" class="w-7 h-7 bg-slate-200 hover:bg-slate-300 rounded-lg flex items-center justify-center transition-colors">
                                 <i class="fas fa-minus text-xs"></i>
@@ -498,16 +683,29 @@
                 </div>
             `).join('');
             
-            totalEl.textContent = `$${total.toLocaleString('es-AR')}`;
+            subtotalEl.textContent = `$${subtotal.toLocaleString('es-AR')}`;
+            shippingCostEl.textContent = shippingCost === 0 ? 'GRATIS' : `$${shippingCost.toLocaleString('es-AR')}`;
+            shippingOriginalEl.textContent = shippingOriginal > 0 ? `$${shippingOriginal.toLocaleString('es-AR')}` : '$0';
+            
+            updateTotal(subtotal, shippingCost);
         }
 
-        // ===== ACTUALIZAR CANTIDAD =====
+        function getShippingCostFromForm() {
+            const province = document.getElementById('customer-province').value;
+            if (!province) return 0;
+            return SHIPPING_COSTS[province] || SHIPPING_COSTS.otra;
+        }
+
+        function updateTotal(subtotal, shipping) {
+            const total = subtotal + shipping;
+            document.getElementById('cart-total').textContent = `$${total.toLocaleString('es-AR')}`;
+        }
+
         function updateQuantity(productId, change) {
             const item = cart.find(i => i.id === productId);
             if (!item) return;
             
             item.quantity += change;
-            
             if (item.quantity <= 0) {
                 removeFromCart(productId);
             } else {
@@ -517,7 +715,6 @@
             }
         }
 
-        // ===== ELIMINAR DEL CARRITO =====
         function removeFromCart(productId) {
             cart = cart.filter(item => item.id !== productId);
             saveCart();
@@ -526,12 +723,10 @@
             showToast('Producto eliminado del carrito');
         }
 
-        // ===== GUARDAR CARRITO EN LOCALSTORAGE =====
         function saveCart() {
             localStorage.setItem('andrea-cart', JSON.stringify(cart));
         }
 
-        // ===== TOGGLE CARRITO MODAL =====
         function toggleCart() {
             const modal = document.getElementById('cart-modal');
             const panel = document.getElementById('cart-panel');
@@ -540,6 +735,7 @@
                 modal.classList.remove('hidden');
                 panel.classList.remove('translate-x-full');
                 document.body.style.overflow = 'hidden';
+                renderCartItems();
             } else {
                 modal.classList.add('hidden');
                 panel.classList.add('translate-x-full');
@@ -547,72 +743,94 @@
             }
         }
 
-        // ===== CHECKOUT MERCADO PAGO (DEMO) =====
+        // ===== CHECKOUT =====
         function checkoutMercadoPago() {
+            if (!validateCustomerData()) return;
             if (cart.length === 0) {
                 showToast('⚠️ Tu carrito está vacío');
                 return;
             }
             
             if (MERCADO_PAGO_DEMO) {
-                // Demo mode: mostrar mensaje informativo
                 showToast('🔧 Demo: Para producción, integrar SDK de Mercado Pago');
-                
-                // Simular redirección (en producción sería la preferencia de MP)
                 setTimeout(() => {
-                    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                    alert(`✅ Pago simulado con Mercado Pago\n\nTotal: $${total.toLocaleString('es-AR')}\n\nEn producción, esto redirigiría al checkout seguro de Mercado Pago.`);
+                    const { subtotal, shipping, total } = calculateTotals();
+                    alert(`✅ Pago simulado con Mercado Pago\n\nSubtotal: $${subtotal.toLocaleString('es-AR')}\nEnvío: ${shipping === 0 ? 'GRATIS' : '$' + shipping.toLocaleString('es-AR')}\nTotal: $${total.toLocaleString('es-AR')}\n\nEn producción, esto redirigiría al checkout seguro.`);
                 }, 500);
-            } else {
-                // Producción: crear preferencia de pago (requiere backend)
-                // fetch('/api/create-preference', { method: 'POST', body: JSON.stringify({ cart }) })
-                //   .then(res => res.json())
-                //   .then(data => window.location.href = data.init_point);
-                
-                showToast('🔧 Integración de Mercado Pago requiere backend');
             }
         }
 
-        // ===== CHECKOUT WHATSAPP =====
         function checkoutWhatsApp() {
+            if (!validateCustomerData()) return;
             if (cart.length === 0) {
                 showToast('⚠️ Tu carrito está vacío');
                 return;
             }
             
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const items = cart.map(item => `• ${item.name} x${item.quantity} - $${item.price.toLocaleString('es-AR')}`).join('\n');
+            const { subtotal, shipping, total } = calculateTotals();
+            const customerName = document.getElementById('customer-name').value;
+            const customerDNI = document.getElementById('customer-dni').value;
+            const customerAddress = document.getElementById('customer-address').value;
+            const customerZipcode = document.getElementById('customer-zipcode').value;
+            const customerProvince = document.getElementById('customer-province').value;
             
-            const message = `¡Hola Andrea! 👋\n\nQuiero realizar el siguiente pedido:\n\n${items}\n\n*Total: $${total.toLocaleString('es-AR')}*\n\n¿Me podés confirmar disponibilidad y forma de envío? ¡Gracias!`;
+            const items = cart.map(item => `• ${item.name} x${item.quantity} - $${item.price.toLocaleString('es-AR')}${item.freeShipping ? ' (Envío GRATIS)' : ''}`).join('\n');
+            
+            const message = `¡Hola Andrea! 👋\n\n* NUEVO PEDIDO *\n\n*Datos del Cliente:*\n👤 Nombre: ${customerName}\n🆔 DNI: ${customerDNI}\n📍 Dirección: ${customerAddress}\n📮 CP: ${customerZipcode}\n🏛️ Provincia: ${customerProvince}\n\n*Productos:*\n${items}\n\n*Subtotal:* $${subtotal.toLocaleString('es-AR')}\n*Envío:* ${shipping === 0 ? 'GRATIS 🎉' : '$' + shipping.toLocaleString('es-AR')}\n*TOTAL:* $${total.toLocaleString('es-AR')}\n\n¿Me confirmás disponibilidad? ¡Gracias!`;
             
             const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
-            
             showToast('📱 Redirigiendo a WhatsApp...');
         }
 
-        // ===== TOAST NOTIFICATION =====
+        function validateCustomerData() {
+            const name = document.getElementById('customer-name').value.trim();
+            const dni = document.getElementById('customer-dni').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
+            const zipcode = document.getElementById('customer-zipcode').value.trim();
+            const province = document.getElementById('customer-province').value;
+            
+            if (!name || !dni || !address || !zipcode || !province) {
+                showToast('⚠️ Por favor completá todos los datos de envío');
+                return false;
+            }
+            
+            if (dni.length < 7) {
+                showToast('⚠️ El DNI debe tener al menos 7 dígitos');
+                return false;
+            }
+            
+            return true;
+        }
+
+        function calculateTotals() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const allProductsFreeShipping = cart.every(item => item.freeShipping);
+            const subtotalExceedsThreshold = subtotal >= FREE_SHIPPING_THRESHOLD;
+            const hasFreeShipping = allProductsFreeShipping || subtotalExceedsThreshold;
+            
+            const shipping = hasFreeShipping ? 0 : getShippingCostFromForm();
+            const total = subtotal + shipping;
+            
+            return { subtotal, shipping, total };
+        }
+
         function showToast(message) {
             const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-message');
-            
-            toastMsg.textContent = message;
+            document.getElementById('toast-message').textContent = message;
             toast.classList.remove('translate-y-20', 'opacity-0');
             toast.classList.add('translate-y-0', 'opacity-100');
-            
             setTimeout(() => {
                 toast.classList.remove('translate-y-0', 'opacity-100');
                 toast.classList.add('translate-y-20', 'opacity-0');
             }, 3000);
         }
 
-        // ===== CERRAR MODAL CON TECLA ESC =====
+        // Cerrar modales con ESC
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                const modal = document.getElementById('cart-modal');
-                if (!modal.classList.contains('hidden')) {
-                    toggleCart();
-                }
+                if (!document.getElementById('cart-modal').classList.contains('hidden')) toggleCart();
+                if (!document.getElementById('product-detail-modal').classList.contains('hidden')) closeProductDetail();
             }
         });
     </script>
