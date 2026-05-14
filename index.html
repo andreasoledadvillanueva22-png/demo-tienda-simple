@@ -352,58 +352,35 @@
         
         // ===== PRODUCTOS (6 productos) =====
         const products = [
-            {
-    id: 1,
-    name: "Kit de Limpieza Pro 3 en 1",
-    // ...
-    image: "images/imagesproducto1.webp"
-},
-            {
-                id: 2,
-                name: "Pack x3 Citrato de Magnesio",
-                description: "Mineral esencial para el bienestar diario. Incluye de regalo un Porta Esponjas exclusivo.",
-                price: 19900,
-               image: "images/imagesproducto2.webp",
-                tag: "MÁS ELEGIDO",
-                tagColor: "bg-secondary"
-            },
-            {
-                id: 3,
-                name: "Cepillo a Vapor Pro",
-                description: "Eliminá hasta el 90% del pelo suelto de tu mascota sin tirones. Incluye guía de regalo.",
-                price: 21500,
-                image: "images/imagesproducto3.png",
-                tag: "NOVEDAD",
-                tagColor: "bg-purple-600"
-            },
-            {
-                id: 4,
-                name: "Difusor Ultrasónico Aromaterapia",
-                description: "Creá un ambiente relajante en tu hogar. 7 colores LED y apagado automático.",
-                price: 15900,
-                image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=400&fit=crop",
-                tag: "OFERTA",
-                tagColor: "bg-orange-500"
-            },
-            {
-                id: 5,
-                name: "Organizador de Cocina Modular",
-                description: "Maximizá el espacio de tu alacena. Set de 4 piezas en acero inoxidable.",
-                price: 12500,
-                image: "https://images.unsplash.com/photo-1584621881566-1c0c7c4d6f7b?w=400&h=400&fit=crop",
-                tag: "BEST SELLER",
-                tagColor: "bg-blue-600"
-            },
-            {
-                id: 6,
-                name: "Set de Toallas Microfibra Premium",
-                description: "Absorción superior, secado rápido. Pack de 3 toallas de diferentes tamaños.",
-                price: 8900,
-                image: "https://images.unsplash.com/photo-1616627561950-9f84a8b3e6a7?w=400&h=400&fit=crop",
-                tag: "NUEVO",
-                tagColor: "bg-pink-600"
-            }
-        ];
+    {
+        id: 1,
+        name: "Kit de Limpieza Pro 3 en 1",
+        description: "Limpieza express inalámbrica para azulejos, cocina y sillones. ¡80% OFF en la 2da unidad!",
+        price: 29003,
+        image: "images/imagesproducto1.webp",  // ← Sin .jpg
+        tag: "ENVÍO GRATIS",
+        tagColor: "bg-primary"
+    },
+    {
+        id: 2,
+        name: "Pack x3 Citrato de Magnesio",
+        description: "Mineral esencial para el bienestar diario. Incluye de regalo un Porta Esponjas exclusivo.",
+        price: 19900,
+        image: "images/imagesproducto2.webp",  // ← Sin .jpg
+        tag: "MÁS ELEGIDO",
+        tagColor: "bg-secondary"
+    },
+    {
+        id: 3,
+        name: "Cepillo a Vapor Pro",
+        description: "Eliminá hasta el 90% del pelo suelto de tu mascota sin tirones. Incluye guía de regalo.",
+        price: 21500,
+        image: "images/imagesproducto3.png",  // ← Este está bien
+        tag: "NOVEDAD",
+        tagColor: "bg-purple-600"
+    },
+    // ... productos 4, 5, 6
+];
 
         // ===== ESTADO DEL CARRITO =====
         let cart = JSON.parse(localStorage.getItem('andrea-cart')) || [];
