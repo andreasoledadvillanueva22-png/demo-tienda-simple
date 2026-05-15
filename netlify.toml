@@ -1,0 +1,10 @@
+[build]
+  command = "npm install"
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+
+[dev]
+  port = 8888
+  autoLaunch = false

@@ -1,0 +1,17 @@
+{
+  "name": "andrea-tienda-demo",
+  "version": "1.0.0",
+  "description": "Demo tienda con Mercado Pago",
+  "main": "index.html",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build needed'"
+  },
+  "dependencies": {
+    "mercadopago": "^2.0.0"
+  },
+  "devDependencies": {},
+  "keywords": ["mercadopago", "netlify", "ecommerce"],
+  "author": "Andrea Villanueva",
+  "license": "ISC"
+}

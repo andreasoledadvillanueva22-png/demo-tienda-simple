@@ -744,21 +744,70 @@
         }
 
         // ===== CHECKOUT =====
-        function checkoutMercadoPago() {
-            if (!validateCustomerData()) return;
-            if (cart.length === 0) {
-                showToast('⚠️ Tu carrito está vacío');
-                return;
-            }
-            
-            if (MERCADO_PAGO_DEMO) {
-                showToast('🔧 Demo: Para producción, integrar SDK de Mercado Pago');
-                setTimeout(() => {
-                    const { subtotal, shipping, total } = calculateTotals();
-                    alert(`✅ Pago simulado con Mercado Pago\n\nSubtotal: $${subtotal.toLocaleString('es-AR')}\nEnvío: ${shipping === 0 ? 'GRATIS' : '$' + shipping.toLocaleString('es-AR')}\nTotal: $${total.toLocaleString('es-AR')}\n\nEn producción, esto redirigiría al checkout seguro.`);
-                }, 500);
-            }
+        async function checkoutMercadoPago() {
+    if (!validateCustomerData()) return;
+    if (cart.length === 0) {
+        showToast('⚠️ Tu carrito está vacío');
+        return;
+    }
+    
+    showToast('🔄 Procesando pago...');
+    
+    try {
+        const { subtotal, shipping, total } = calculateTotals();
+        
+        // Obtener datos del cliente del formulario
+        const customer = {
+            name: document.getElementById('customer-name').value.trim(),
+            email: '', // Podés agregar un campo email si querés
+            dni: document.getElementById('customer-dni').value.trim(),
+            address: document.getElementById('customer-address').value.trim(),
+            zipcode: document.getElementById('customer-zipcode').value.trim(),
+            province: document.getElementById('customer-province').value
+        };
+        
+        // Preparar items para enviar
+        const items = cart.map(item => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity
+        }));
+        
+        // Llamar a la Netlify Function
+        const response = await fetch('/.netlify/functions/create-preference', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({
+                items: items,
+                customer: customer,
+                total: total
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || 'Error al crear el pago');
         }
+        
+        if (data.init_point) {
+            // Redirigir al checkout de Mercado Pago
+            showToast('✅ Redirigiendo a Mercado Pago...');
+            setTimeout(() => {
+                window.location.href = data.init_point;
+            }, 1000);
+        } else {
+            throw new Error('No se recibió URL de pago');
+        }
+        
+    } catch (error) {
+        console.error('Error en checkout:', error);
+        showToast('❌ Error: ' + error.message);
+    }
+}
 
         function checkoutWhatsApp() {
             if (!validateCustomerData()) return;

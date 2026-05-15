@@ -1,0 +1,19 @@
+# Variables de entorno (CLAVES SECRETAS)
+.env
+
+# Dependencias de Node.js
+node_modules/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build
+dist/
+build/
+# Local Netlify folder
+.netlify
