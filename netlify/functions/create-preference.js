@@ -1,8 +1,6 @@
-// ✅ Código corregido para Mercado Pago SDK v2.x
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 
 exports.handler = async (event, context) => {
-  // Solo permitir método POST
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -11,18 +9,17 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    // Obtener token de variable de entorno
     const accessToken = process.env.MERCADO_PAGO_ACCESS_TOKEN;
     
     if (!accessToken) {
+      console.error('❌ ACCESS_TOKEN no configurada');
       throw new Error('MERCADO_PAGO_ACCESS_TOKEN no configurada');
     }
 
-    // ✅ Configurar cliente con la sintaxis correcta para SDK v2
+    console.log('✅ Token encontrada, creando cliente...');
     const client = new MercadoPagoConfig({ accessToken: accessToken });
     const preference = new Preference(client);
 
-    // Parsear datos del request
     const { items, customer } = JSON.parse(event.body);
 
     if (!items || items.length === 0) {
@@ -32,7 +29,8 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Crear cuerpo de la preferencia
+    console.log('📦 Creando preferencia con items:', items);
+
     const preferenceBody = {
       items: items.map(item => ({
         title: item.name,
@@ -52,8 +50,10 @@ exports.handler = async (event, context) => {
       auto_return: 'approved'
     };
 
-    // ✅ Crear preferencia con la sintaxis correcta
+    console.log('🚀 Enviando a Mercado Pago...');
     const response = await preference.create({ body: preferenceBody });
+
+    console.log('✅ Preferencia creada:', response.id);
 
     return {
       statusCode: 200,
@@ -64,7 +64,7 @@ exports.handler = async (event, context) => {
     };
 
   } catch (error) {
-    console.error('Error creando preferencia:', error);
+    console.error('❌ Error en create-preference:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ 
