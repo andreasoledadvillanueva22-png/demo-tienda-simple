@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Andrea Tienda Online - Suplementos, Hogar y Mascotas | Puerto Rico Misiones | Envíos a Argentina</title>
-<meta name="description" content="Tienda online en Puerto Rico, Misiones. Citrato de magnesio, kits de limpieza y accesorios para mascotas. Envíos a toda Argentina. Compra segura con Mercado Pago.">
+    <meta name="description" content="Tienda online en Puerto Rico, Misiones. Citrato de magnesio, kits de limpieza y accesorios para mascotas. Envíos a toda Argentina. Compra segura con Mercado Pago.">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-<<<<<<< HEAD
-=======
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
->>>>>>> be9e64badcb879637e47ec9e8242d0d6f4db537f
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -62,11 +59,7 @@
     <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <a href="#" class="flex items-center gap-3 group">
-<<<<<<< HEAD
                 <img src="images/logo.png.webp" alt="Andrea Tienda Logo" class="w-11 h-11 object-contain rounded-xl group-hover:scale-110 transition-transform" onerror="this.src='https://via.placeholder.com/44'">
-=======
-                <img src="images/logo.png.webp" alt="Andrea Tienda Logo" class="w-11 h-11 object-contain rounded-xl group-hover:scale-110 transition-transform">
->>>>>>> be9e64badcb879637e47ec9e8242d0d6f4db537f
                 <div>
                     <span class="text-xl font-extrabold text-dark tracking-tight">ANDREA</span>
                     <span class="text-xl font-extrabold text-secondary">TIENDA</span>
@@ -404,8 +397,7 @@
             
             <!-- Imagen del regalo -->
             <div class="w-full md:w-2/5 bg-primary/10 flex items-center justify-center p-8">
-                <!-- Reemplaza esta URL con la imagen real de tu porta esponjas -->
-                <img src="https://porta-esponja-silicona.jpeg" alt="Porta Esponjas de Regalo" class="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-xl">
+                <img src="images/porta-esponja-silicona.jpeg" alt="Porta Esponjas de Regalo" class="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-xl">
             </div>
             
             <!-- Contenido -->
@@ -456,8 +448,8 @@
         // ===== CONFIGURACIÓN =====
         const WHATSAPP_NUMBER = "5493743417659";
         
-        // ⚠️ PEGÁ ACÁ EL LINK DE TU GOOGLE SHEET CSV (SIN &gid=0...)
-        const GOOGLE_SHEET_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoZ0kwkcEmLN98SV-Dz0mP9wIHsLf40S_KyYm2u9ugDP-soYFHpUyXU8YK6Y79xQyctRjLBu1sEz4l/pub?&output=csv"; 
+        // ⚠️ LINK DE TU GOOGLE SHEET CSV (limpio, sin &gid=0)
+        const GOOGLE_SHEET_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoZ0kwkcEmLN98SV-Dz0mP9wIHsLf40S_KyYm2u9ugDP-soYFHpUyXU8YK6Y79xQyctRjLBu1sEz4l/pub?output=csv"; 
 
         const FREE_SHIPPING_THRESHOLD = 55000;
         const MISIONES_ZIP_CODES = [3300, 3311, 3315, 3316, 3317, 3318, 3319, 3320, 3321, 3322, 3324, 3325, 3326, 3328, 3329, 3330, 3332, 3334, 3336, 3340, 3342, 3344, 3346, 3348, 3350, 3352, 3353, 3354, 3355, 3356, 3357, 3358, 3359, 3360, 3361, 3364, 3365, 3367, 3368, 3369, 3370, 3372, 3374, 3376, 3377, 3379, 3380, 3381, 3382, 3384, 3385, 3386, 3387];
@@ -470,7 +462,6 @@
 
         // ===== CARGAR PRODUCTOS DESDE GOOGLE SHEETS =====
         function loadProducts() {
-            // Si no configuraste el link, usamos datos de prueba para que no se rompa
             if (GOOGLE_SHEET_CSV.includes("PEGAR_TU_LINK_AQUI")) {
                 console.warn("⚠️ No configuraste el link de Google Sheets. Cargando datos locales de ejemplo.");
                 useFallbackProducts();
@@ -486,7 +477,7 @@
                         name: row.name,
                         description: row.description,
                         price: parseFloat(row.price),
-                        images: [row.image], // Simplificado para Sheets
+                        images: row.image ? row.image.split(',').map(img => img.trim()) : ['https://via.placeholder.com/400'],
                         category: row.category,
                         tag: row.tag,
                         tagColor: row.tagColor || 'bg-primary',
@@ -503,7 +494,7 @@
             });
         }
 
-        // Datos de respaldo por si falla el Sheet o no está configurado
+        // Datos de respaldo por si falla el Sheet
         function useFallbackProducts() {
             products = [
                 { id: 1, name: "Pack x3 Citrato de Magnesio", description: "Mineral esencial para el bienestar diario.", price: 19900, images: ["https://via.placeholder.com/400"], tag: "NOVEDAD", tagColor: "bg-secondary", freeShipping: false },
@@ -598,6 +589,14 @@
             selectedProduct = null;
         }
 
+        function changeImage(direction) {
+            if (!selectedProduct) return;
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) currentImageIndex = selectedProduct.images.length - 1;
+            if (currentImageIndex >= selectedProduct.images.length) currentImageIndex = 0;
+            renderProductDetail();
+        }
+
         function renderProductDetail() {
             if (!selectedProduct) return;
             const container = document.getElementById('product-detail-content');
@@ -608,7 +607,24 @@
                     <div class="space-y-4">
                         <div class="relative aspect-square rounded-2xl overflow-hidden bg-slate-100">
                             <img src="${currentImage}" alt="${selectedProduct.name}" class="w-full h-full object-cover">
+                            ${selectedProduct.images.length > 1 ? `
+                                <button onclick="changeImage(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-chevron-left text-dark"></i>
+                                </button>
+                                <button onclick="changeImage(1)" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-chevron-right text-dark"></i>
+                                </button>
+                            ` : ''}
                         </div>
+                        ${selectedProduct.images.length > 1 ? `
+                            <div class="flex gap-2 overflow-x-auto">
+                                ${selectedProduct.images.map((img, idx) => `
+                                    <button onclick="currentImageIndex = ${idx}; renderProductDetail()" class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${idx === currentImageIndex ? 'border-primary' : 'border-slate-200'}">
+                                        <img src="${img}" class="w-full h-full object-cover">
+                                    </button>
+                                `).join('')}
+                            </div>
+                        ` : ''}
                     </div>
                     <div class="space-y-6">
                         <div>
@@ -617,6 +633,16 @@
                             <p class="text-3xl font-black text-primary mt-2">$${selectedProduct.price.toLocaleString('es-AR')}</p>
                         </div>
                         <p class="text-slate-600 leading-relaxed">${selectedProduct.description}</p>
+                        <div class="space-y-3 pt-4 border-t border-slate-100">
+                            <div class="flex items-center gap-3 text-slate-600">
+                                <i class="fas fa-truck text-secondary"></i>
+                                <span>${selectedProduct.freeShipping ? 'Envío GRATIS incluido' : 'Envío a todo Argentina'}</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-slate-600">
+                                <i class="fas fa-shield-check text-secondary"></i>
+                                <span>Compra 100% segura</span>
+                            </div>
+                        </div>
                         <div class="space-y-3 pt-6">
                             <button onclick="addToCart(${selectedProduct.id}); closeProductDetail(); showToast('✅ Agregado al carrito')" class="w-full bg-primary hover:bg-red-700 text-white font-bold py-4 rounded-xl transition-all">
                                 <i class="fas fa-cart-plus mr-2"></i> Agregar al carrito
@@ -779,7 +805,6 @@
         function checkoutMercadoPago() {
             if (!validateCustomerData()) return;
             showToast('🔄 Redirigiendo a Mercado Pago...');
-            // Aquí iría tu lógica real de MP
         }
 
         function checkoutWhatsApp() {
@@ -788,7 +813,7 @@
             const name = document.getElementById('customer-name').value;
             const items = cart.map(item => `• ${item.name} x${item.quantity}`).join('\n');
             
-            const message = `¡Hola Andrea! 👋\n\n* NUEVO PEDIDO *\n\n👤 Nombre: ${name}\n📦 Productos:\n${items}\n\n💰 TOTAL: $${total.toLocaleString('es-AR')}`;
+            const message = `¡Hola Andrea! 👋\n\n* NUEVO PEDIDO *\n\n👤 Nombre: ${name}\n📦 Productos:\n${items}\n\n TOTAL: $${total.toLocaleString('es-AR')}`;
             window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
         }
 
@@ -819,12 +844,11 @@
 
         // ===== POPUP DE OFERTA (REGALO) =====
         function showOfferModal() {
-            // Solo mostrar si no lo vio antes en esta sesión
             if (!sessionStorage.getItem('offer-seen')) {
                 setTimeout(() => {
                     document.getElementById('offer-modal').classList.add('active');
                     sessionStorage.setItem('offer-seen', 'true');
-                }, 3000); // Aparece a los 3 segundos
+                }, 3000);
             }
         }
 
@@ -845,23 +869,20 @@
             const bar = document.getElementById('social-bar');
             
             setInterval(() => {
-                // Datos aleatorios
                 const random = socialData[Math.floor(Math.random() * socialData.length)];
                 document.getElementById('social-name').textContent = random.name;
                 document.getElementById('social-city').textContent = random.city;
                 document.getElementById('social-product').textContent = random.product;
                 
-                // Mostrar
                 toast.classList.add('show');
                 bar.style.width = '100%';
                 
-                // Ocultar después de 4 seg
                 setTimeout(() => {
                     toast.classList.remove('show');
                     bar.style.width = '0';
                 }, 4000);
                 
-            }, 12000); // Cada 12 segundos
+            }, 12000);
         }
 
         // ===== INICIALIZACIÓN =====
