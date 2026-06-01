@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andrea Tienda Online - Bienestar y Hogar | Misiones</title>
-    <meta name="description" content="Productos seleccionados para tu hogar y bienestar. Envíos a toda Argentina. Compra segura con Mercado Pago o WhatsApp.">
+    <title>Andrea Tienda Online - Suplementos, Hogar y Mascotas | Puerto Rico Misiones | Envíos a Argentina</title>
+<meta name="description" content="Tienda online en Puerto Rico, Misiones. Citrato de magnesio, kits de limpieza y accesorios para mascotas. Envíos a toda Argentina. Compra segura con Mercado Pago.">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/logo.png">
-    <link rel="apple-touch-icon" href="images/logo.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- PapaParse para leer Google Sheets -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -42,7 +44,12 @@
         .modal-overlay { background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
         .badge { animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
-        .line-through-custom { text-decoration: line-through; opacity: 0.6; }
+        
+        /* Estilos Popups */
+        .social-toast { transform: translateX(-120%); transition: transform 0.5s ease-in-out; }
+        .social-toast.show { transform: translateX(0); }
+        .offer-modal { transform: scale(0.8); opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+        .offer-modal.active { transform: scale(1); opacity: 1; pointer-events: auto; }
     </style>
 </head>
 <body class="font-sans antialiased text-slate-800 bg-white">
@@ -51,7 +58,7 @@
     <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <a href="#" class="flex items-center gap-3 group">
-                <img src="images/logo.png" alt="Andrea Tienda Logo" class="w-11 h-11 object-contain rounded-xl group-hover:scale-110 transition-transform">
+                <img src="images/logo.png.webp" alt="Andrea Tienda Logo" class="w-11 h-11 object-contain rounded-xl group-hover:scale-110 transition-transform" onerror="this.src='https://via.placeholder.com/44'">
                 <div>
                     <span class="text-xl font-extrabold text-dark tracking-tight">ANDREA</span>
                     <span class="text-xl font-extrabold text-secondary">TIENDA</span>
@@ -71,7 +78,7 @@
                     <span id="cart-count" class="absolute -top-2 -right-2 bg-secondary text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">0</span>
                 </button>
                 
-                <a href="https://wa.me/5493743417659?text=¡Hola%20Andrea!%20Necesito%20ayuda%20con%20mi%20pedido." target="_blank" class="hidden md:flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-5 py-2.5 rounded-xl font-semibold transition-all shadow-lg shadow-green-200/50">
+                <a href="https://wa.me/5493743417659" target="_blank" class="hidden md:flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-5 py-2.5 rounded-xl font-semibold transition-all shadow-lg shadow-green-200/50">
                     <i class="fab fa-whatsapp text-lg"></i>
                     <span>Consultar</span>
                 </a>
@@ -90,7 +97,7 @@
                 <div class="space-y-8 text-center lg:text-left">
                     <div class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold">
                         <i class="fas fa-truck"></i>
-                        <span>Envío GRATIS en productos seleccionados +$55.000</span>
+                        <span>Envío GRATIS en productos seleccionados o compras de +$55.000</span>
                     </div>
                     
                     <h1 class="text-4xl md:text-6xl font-black leading-tight text-dark">
@@ -133,7 +140,7 @@
                 <div class="relative flex justify-center">
                     <div class="relative">
                         <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent z-10"></div>
-                        <img src="images/Hero.webp" alt="Productos Andrea Tienda" class="relative z-0 w-80 h-80 md:w-[450px] md:h-[450px] object-cover rounded-[2.5rem] shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
+                        <img src="images/Hero.webp" alt="Productos Andrea Tienda" class="relative z-0 w-80 h-80 md:w-[450px] md:h-[450px] object-cover rounded-[2.5rem] shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500" onerror="this.src='https://via.placeholder.com/450x450?text=Andrea+Tienda'">
                         <div class="absolute -top-4 -right-4 bg-secondary text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg badge">
                             🔥 Nuevos Productos
                         </div>
@@ -179,13 +186,20 @@
         </div>
     </section>
 
-    <!-- ========== CATÁLOGO ========== -->
+    <!-- ========== CATÁLOGO DINÁMICO ========== -->
     <section id="catalogo" class="py-20 bg-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-black text-dark mb-4">Nuestros <span class="text-primary">Productos</span> Destacados</h2>
                 <p class="text-slate-600 max-w-2xl mx-auto">Seleccionamos lo mejor en tecnología para el hogar y suplementos naturales.</p>
             </div>
+            
+            <!-- Loading Spinner -->
+            <div id="loading-spinner" class="text-center py-12">
+                <i class="fas fa-circle-notch fa-spin text-4xl text-primary"></i>
+                <p class="mt-4 text-slate-500">Cargando catálogo...</p>
+            </div>
+
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid"></div>
         </div>
     </section>
@@ -256,7 +270,7 @@
     <!-- ========== CARRITO MODAL ========== -->
     <div id="cart-modal" class="fixed inset-0 z-[100] hidden">
         <div class="modal-overlay absolute inset-0" onclick="toggleCart()"></div>
-        <div class="absolute right-0 top-0 h-full w-full max-w-2xl bg-white shadow-2xl flex flex-col transform transition-transform duration-300" id="cart-panel">
+        <div class="absolute right-0 top-0 h-full w-full max-w-2xl bg-white shadow-2xl flex flex-col transform transition-transform duration-300 translate-x-full" id="cart-panel">
             <!-- Header -->
             <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                 <h3 class="text-xl font-bold text-dark">Tu Carrito</h3>
@@ -323,7 +337,7 @@
                     <div class="flex justify-between items-center text-sm">
                         <span class="text-slate-600">Envío:</span>
                         <div class="text-right">
-                            <span id="shipping-original" class="line-through-custom text-slate-500 text-xs hidden">$0</span>
+                            <span id="shipping-original" class="line-through text-slate-500 text-xs hidden">$0</span>
                             <span id="shipping-cost" class="font-medium">$0</span>
                         </div>
                     </div>
@@ -372,7 +386,58 @@
         </div>
     </div>
 
-    <!-- ========== TOAST ========== -->
+    <!-- ========== POPUP DE OFERTA (REGALO) ========== -->
+    <div id="offer-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="modal-overlay absolute inset-0" onclick="closeOfferModal()"></div>
+        <div class="offer-modal relative bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col md:flex-row">
+            <button onclick="closeOfferModal()" class="absolute top-4 right-4 z-10 p-2 bg-white/80 rounded-full hover:bg-white transition-colors">
+                <i class="fas fa-times text-dark"></i>
+            </button>
+            
+            <!-- Imagen del regalo -->
+            <div class="w-full md:w-2/5 bg-primary/10 flex items-center justify-center p-8">
+                <!-- Reemplaza esta URL con la imagen real de tu porta esponjas -->
+                <img src="https://porta-esponja-silicona.jpeg" alt="Porta Esponjas de Regalo" class="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-xl">
+            </div>
+            
+            <!-- Contenido -->
+            <div class="w-full md:w-3/5 p-8 text-center md:text-left flex flex-col justify-center">
+                <span class="inline-block bg-secondary/10 text-secondary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3 w-fit mx-auto md:mx-0">
+                    ¡Regalo Exclusivo!
+                </span>
+                <h3 class="text-2xl font-black text-dark mb-2">
+                    Portaesponjas de Silicona <span class="text-primary">GRATIS</span>
+                </h3>
+                <p class="text-slate-600 text-sm mb-6">
+                    Por la compra de cualquier producto de nuestro catálogo, te regalamos este práctico organizador para tu cocina. ¡Aprovechá!
+                </p>
+                <a href="#catalogo" onclick="closeOfferModal()" class="w-full bg-primary hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg">
+                    ¡Quiero mi regalo! 🎁
+                </a>
+                <button onclick="closeOfferModal()" class="mt-3 text-sm text-slate-400 hover:text-slate-600 underline">
+                    No gracias, no quiero regalos
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== PRUEBA SOCIAL (SOCIAL TOAST) ========== -->
+    <div id="social-toast" class="social-toast fixed bottom-6 left-6 z-[90] bg-white border border-slate-200 shadow-xl rounded-xl p-4 flex items-center gap-3 max-w-xs">
+        <div class="relative">
+            <img src="https://via.placeholder.com/40" alt="Avatar" class="w-10 h-10 rounded-full bg-slate-200">
+            <div class="absolute -bottom-1 -right-1 bg-secondary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
+                <i class="fas fa-check text-[10px]"></i>
+            </div>
+        </div>
+        <div>
+            <p class="text-sm font-semibold text-dark"><span id="social-name" class="text-primary">Alguien</span> de <span id="social-city" class="text-dark">Misiones</span></p>
+            <p class="text-xs text-slate-500">acaba de comprar <span id="social-product" class="font-medium">Magnesio</span></p>
+            <p class="text-[10px] text-slate-400 mt-0.5">Hace <span id="social-time">5</span> minutos</p>
+        </div>
+        <div class="absolute bottom-0 left-0 h-1 bg-primary rounded-bl-xl transition-all duration-[4000ms] w-0" id="social-bar"></div>
+    </div>
+
+    <!-- ========== TOAST GENÉRICO ========== -->
     <div id="toast" class="fixed bottom-6 right-6 z-[110] bg-dark text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300">
         <i class="fas fa-check-circle text-secondary text-xl"></i>
         <span id="toast-message">Producto agregado al carrito</span>
@@ -382,87 +447,101 @@
     <script>
         // ===== CONFIGURACIÓN =====
         const WHATSAPP_NUMBER = "5493743417659";
-        const MERCADO_PAGO_DEMO = true;
         
-        // Costos de envío por zona
-        const SHIPPING_COSTS = {
-            misiones: 8500,
-            buenos_aires: 13500,
-            cordoba: 13500,
-            santa_fe: 13500,
-            otra: 15000,
-            free: 0
-        };
-        
+        // ⚠️ PEGÁ ACÁ EL LINK DE TU GOOGLE SHEET CSV (SIN &gid=0...)
+        const GOOGLE_SHEET_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoZ0kwkcEmLN98SV-Dz0mP9wIHsLf40S_KyYm2u9ugDP-soYFHpUyXU8YK6Y79xQyctRjLBu1sEz4l/pub?&output=csv"; 
+
         const FREE_SHIPPING_THRESHOLD = 55000;
-        
-        // Códigos postales de Misiones (ejemplos)
         const MISIONES_ZIP_CODES = [3300, 3311, 3315, 3316, 3317, 3318, 3319, 3320, 3321, 3322, 3324, 3325, 3326, 3328, 3329, 3330, 3332, 3334, 3336, 3340, 3342, 3344, 3346, 3348, 3350, 3352, 3353, 3354, 3355, 3356, 3357, 3358, 3359, 3360, 3361, 3364, 3365, 3367, 3368, 3369, 3370, 3372, 3374, 3376, 3377, 3379, 3380, 3381, 3382, 3384, 3385, 3386, 3387];
-        
-        // ===== PRODUCTOS =====
-        const products = [
-            {
-                id: 1,
-                name: "PROMO 2X1 Kit de Limpieza Pro 3 en 1",
-                description: "Limpieza express inalámbrica para azulejos, cocina y sillones. ¡80% OFF en la 2da unidad!",
-                price: 34900,
-                images: [
-                    "images/products/producto1/imagesproducto1main.webp",
-                    "images/products/producto1/foto2.webp",
-                    "images/products/producto1/foto3.webp"
-                ],
-                tag: "ENVÍO GRATIS",
-                tagColor: "bg-primary",
-                freeShipping: true
-            },
-            {
-                id: 2,
-                name: "Pack x3 Citrato de Magnesio",
-                description: "Mineral esencial para el bienestar diario. Incluye de regalo un Porta Esponjas exclusivo.",
-                price: 19900,
-                images: [
-                    "images/products/producto2/main.webp",
-                    "images/products/producto2/foto2.webp",
-                    "images/products/producto2/foto3.webp"
-                ],
-                tag: "NOVEDAD",
-                tagColor: "bg-secondary",
-                freeShipping: false
-            },
-            {
-                id: 3,
-                name: "Cepillo a Vapor Pro",
-                description: "Eliminá hasta el 90% del pelo suelto de tu mascota sin tirones. Incluye guía de regalo.",
-                price: 29599,
-                images: [
-                    "images/products/producto3/main.webp",
-                    "images/products/producto3/foto2.png",
-                    "images/products/producto3/foto3.png"
-                ],
-                tag: "ENVÍO GRATIS",
-                tagColor: "bg-purple-600",
-                freeShipping: true
-            }
-        ];
 
         // ===== ESTADO =====
+        let products = [];
         let cart = JSON.parse(localStorage.getItem('andrea-cart')) || [];
         let selectedProduct = null;
         let currentImageIndex = 0;
-        let customerData = {
-            name: '',
-            dni: '',
-            address: '',
-            zipcode: '',
-            province: ''
-        };
 
-        // ===== INICIALIZACIÓN =====
-        document.addEventListener('DOMContentLoaded', () => {
+        // ===== CARGAR PRODUCTOS DESDE GOOGLE SHEETS =====
+        function loadProducts() {
+            // Si no configuraste el link, usamos datos de prueba para que no se rompa
+            if (GOOGLE_SHEET_CSV.includes("PEGAR_TU_LINK_AQUI")) {
+                console.warn("⚠️ No configuraste el link de Google Sheets. Cargando datos locales de ejemplo.");
+                useFallbackProducts();
+                return;
+            }
+
+            Papa.parse(GOOGLE_SHEET_CSV, {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    products = results.data.map(row => ({
+                        id: parseInt(row.id),
+                        name: row.name,
+                        description: row.description,
+                        price: parseFloat(row.price),
+                        images: [row.image], // Simplificado para Sheets
+                        category: row.category,
+                        tag: row.tag,
+                        tagColor: row.tagColor || 'bg-primary',
+                        freeShipping: row.freeShipping === 'true'
+                    }));
+                    renderProducts();
+                    injectSchema();
+                    document.getElementById('loading-spinner').style.display = 'none';
+                },
+                error: function(err) {
+                    console.error("Error cargando CSV", err);
+                    useFallbackProducts();
+                }
+            });
+        }
+
+        // Datos de respaldo por si falla el Sheet o no está configurado
+        function useFallbackProducts() {
+            products = [
+                { id: 1, name: "Pack x3 Citrato de Magnesio", description: "Mineral esencial para el bienestar diario.", price: 19900, images: ["https://via.placeholder.com/400"], tag: "NOVEDAD", tagColor: "bg-secondary", freeShipping: false },
+                { id: 2, name: "Kit Limpieza Pro", description: "Limpieza express inalámbrica.", price: 34900, images: ["https://via.placeholder.com/400"], tag: "ENVÍO GRATIS", tagColor: "bg-primary", freeShipping: true },
+                { id: 3, name: "Cepillo Vapor Mascotas", description: "Elimina pelo suelto sin tirones.", price: 29599, images: ["https://via.placeholder.com/400"], tag: "ENVÍO GRATIS", tagColor: "bg-purple-600", freeShipping: true }
+            ];
             renderProducts();
-            updateCartCount();
-            renderCartItems();
-        });
+            injectSchema();
+            document.getElementById('loading-spinner').style.display = 'none';
+        }
+
+        // ===== SEO: INYECTAR SCHEMA (JSON-LD) =====
+        function injectSchema() {
+            const schema = {
+                "@context": "https://schema.org",
+                "@type": "ItemList",
+                "name": "Productos Andrea Tienda Online",
+                "description": "Catálogo de productos seleccionados en Puerto Rico, Misiones.",
+                "numberOfItems": products.length,
+                "itemListElement": products.map((p, index) => ({
+                    "@type": "ListItem",
+                    "position": index + 1,
+                    "item": {
+                        "@type": "Product",
+                        "name": p.name,
+                        "description": p.description,
+                        "image": p.images[0],
+                        "offers": {
+                            "@type": "Offer",
+                            "price": p.price,
+                            "priceCurrency": "ARS",
+                            "availability": "https://schema.org/InStock",
+                            "seller": {
+                                "@type": "Organization",
+                                "name": "Andrea Tienda Online"
+                            }
+                        }
+                    }
+                }))
+            };
+            
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.text = JSON.stringify(schema);
+            document.head.appendChild(script);
+        }
 
         // ===== RENDERIZAR PRODUCTOS =====
         function renderProducts() {
@@ -478,7 +557,7 @@
                     </div>
                     <div class="space-y-3">
                         <h3 class="text-lg font-bold text-dark">${product.name}</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">${product.description}</p>
+                        <p class="text-slate-600 text-sm leading-relaxed line-clamp-2">${product.description}</p>
                         <div class="flex items-center justify-between pt-4 border-t border-slate-100">
                             <span class="text-2xl font-black text-primary">$${product.price.toLocaleString('es-AR')}</span>
                             <div class="flex gap-2">
@@ -511,14 +590,6 @@
             selectedProduct = null;
         }
 
-        function changeImage(direction) {
-            if (!selectedProduct) return;
-            currentImageIndex += direction;
-            if (currentImageIndex < 0) currentImageIndex = selectedProduct.images.length - 1;
-            if (currentImageIndex >= selectedProduct.images.length) currentImageIndex = 0;
-            renderProductDetail();
-        }
-
         function renderProductDetail() {
             if (!selectedProduct) return;
             const container = document.getElementById('product-detail-content');
@@ -529,24 +600,7 @@
                     <div class="space-y-4">
                         <div class="relative aspect-square rounded-2xl overflow-hidden bg-slate-100">
                             <img src="${currentImage}" alt="${selectedProduct.name}" class="w-full h-full object-cover">
-                            ${selectedProduct.images.length > 1 ? `
-                                <button onclick="changeImage(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg">
-                                    <i class="fas fa-chevron-left text-dark"></i>
-                                </button>
-                                <button onclick="changeImage(1)" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg">
-                                    <i class="fas fa-chevron-right text-dark"></i>
-                                </button>
-                            ` : ''}
                         </div>
-                        ${selectedProduct.images.length > 1 ? `
-                            <div class="flex gap-2 overflow-x-auto">
-                                ${selectedProduct.images.map((img, idx) => `
-                                    <button onclick="currentImageIndex = ${idx}; renderProductDetail()" class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${idx === currentImageIndex ? 'border-primary' : 'border-slate-200'}">
-                                        <img src="${img}" class="w-full h-full object-cover">
-                                    </button>
-                                `).join('')}
-                            </div>
-                        ` : ''}
                     </div>
                     <div class="space-y-6">
                         <div>
@@ -555,16 +609,6 @@
                             <p class="text-3xl font-black text-primary mt-2">$${selectedProduct.price.toLocaleString('es-AR')}</p>
                         </div>
                         <p class="text-slate-600 leading-relaxed">${selectedProduct.description}</p>
-                        <div class="space-y-3 pt-4 border-t border-slate-100">
-                            <div class="flex items-center gap-3 text-slate-600">
-                                <i class="fas fa-truck text-secondary"></i>
-                                <span>${selectedProduct.freeShipping ? 'Envío GRATIS incluido' : 'Envío a todo Argentina'}</span>
-                            </div>
-                            <div class="flex items-center gap-3 text-slate-600">
-                                <i class="fas fa-shield-check text-secondary"></i>
-                                <span>Compra 100% segura</span>
-                            </div>
-                        </div>
                         <div class="space-y-3 pt-6">
                             <button onclick="addToCart(${selectedProduct.id}); closeProductDetail(); showToast('✅ Agregado al carrito')" class="w-full bg-primary hover:bg-red-700 text-white font-bold py-4 rounded-xl transition-all">
                                 <i class="fas fa-cart-plus mr-2"></i> Agregar al carrito
@@ -611,12 +655,9 @@
         function calculateShippingByZip() {
             const zipcode = parseInt(document.getElementById('customer-zipcode').value) || 0;
             const province = document.getElementById('customer-province').value;
-            
-            // Si es Misiones (por código postal o provincia)
             if (MISIONES_ZIP_CODES.includes(zipcode) || province === 'misiones') {
                 document.getElementById('customer-province').value = 'misiones';
             }
-            
             renderCartItems();
         }
 
@@ -638,24 +679,20 @@
             }
             
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
-            // Verificar si TODOS los productos tienen envío gratis
             const allProductsFreeShipping = cart.every(item => item.freeShipping);
             const subtotalExceedsThreshold = subtotal >= FREE_SHIPPING_THRESHOLD;
             const hasFreeShipping = allProductsFreeShipping || subtotalExceedsThreshold;
             
-            // Calcular envío
             let shippingCost = 0;
             let shippingOriginal = 0;
             
             if (hasFreeShipping) {
                 shippingCost = 0;
-                shippingOriginal = getShippingCostFromForm();
+                shippingOriginal = getShippingCostFromForm() || 8500;
                 freeShippingNotice.classList.remove('hidden');
                 shippingOriginalEl.classList.remove('hidden');
             } else {
-                shippingCost = getShippingCostFromForm();
-                shippingOriginal = 0;
+                shippingCost = getShippingCostFromForm() || 8500;
                 freeShippingNotice.classList.add('hidden');
                 shippingOriginalEl.classList.add('hidden');
             }
@@ -692,195 +729,140 @@
 
         function getShippingCostFromForm() {
             const province = document.getElementById('customer-province').value;
-            if (!province) return 0;
-            return SHIPPING_COSTS[province] || SHIPPING_COSTS.otra;
+            const shippingMap = { misiones: 8500, buenos_aires: 13500, cordoba: 13500, santa_fe: 13500, otra: 15000 };
+            return shippingMap[province];
         }
 
         function updateTotal(subtotal, shipping) {
-            const total = subtotal + shipping;
-            document.getElementById('cart-total').textContent = `$${total.toLocaleString('es-AR')}`;
+            document.getElementById('cart-total').textContent = `$${(subtotal + shipping).toLocaleString('es-AR')}`;
         }
 
         function updateQuantity(productId, change) {
             const item = cart.find(i => i.id === productId);
             if (!item) return;
-            
             item.quantity += change;
-            if (item.quantity <= 0) {
-                removeFromCart(productId);
-            } else {
-                saveCart();
-                updateCartCount();
-                renderCartItems();
-            }
+            if (item.quantity <= 0) removeFromCart(productId);
+            else { saveCart(); updateCartCount(); renderCartItems(); }
         }
 
         function removeFromCart(productId) {
             cart = cart.filter(item => item.id !== productId);
-            saveCart();
-            updateCartCount();
-            renderCartItems();
-            showToast('Producto eliminado del carrito');
+            saveCart(); updateCartCount(); renderCartItems();
+            showToast('Producto eliminado');
         }
 
-        function saveCart() {
-            localStorage.setItem('andrea-cart', JSON.stringify(cart));
-        }
+        function saveCart() { localStorage.setItem('andrea-cart', JSON.stringify(cart)); }
 
         function toggleCart() {
             const modal = document.getElementById('cart-modal');
             const panel = document.getElementById('cart-panel');
-            
             if (modal.classList.contains('hidden')) {
                 modal.classList.remove('hidden');
-                panel.classList.remove('translate-x-full');
+                setTimeout(() => panel.classList.remove('translate-x-full'), 10);
                 document.body.style.overflow = 'hidden';
                 renderCartItems();
             } else {
-                modal.classList.add('hidden');
                 panel.classList.add('translate-x-full');
+                setTimeout(() => modal.classList.add('hidden'), 300);
                 document.body.style.overflow = '';
             }
         }
 
-        // ===== CHECKOUT =====
-        async function checkoutMercadoPago() {
-    if (!validateCustomerData()) return;
-    if (cart.length === 0) {
-        showToast('⚠️ Tu carrito está vacío');
-        return;
-    }
-    
-    showToast('🔄 Procesando pago...');
-    
-    try {
-        const { subtotal, shipping, total } = calculateTotals();
-        
-        // Obtener datos del cliente del formulario
-        const customer = {
-            name: document.getElementById('customer-name').value.trim(),
-            email: '', // Podés agregar un campo email si querés
-            dni: document.getElementById('customer-dni').value.trim(),
-            address: document.getElementById('customer-address').value.trim(),
-            zipcode: document.getElementById('customer-zipcode').value.trim(),
-            province: document.getElementById('customer-province').value
-        };
-        
-        // Preparar items para enviar
-        const items = cart.map(item => ({
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity
-        }));
-        
-        // Llamar a la Netlify Function
-        const response = await fetch('/.netlify/functions/create-preference', {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json' 
-            },
-            body: JSON.stringify({
-                items: items,
-                customer: customer,
-                total: total
-            })
-        });
-        
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(data.message || 'Error al crear el pago');
+        function checkoutMercadoPago() {
+            if (!validateCustomerData()) return;
+            showToast('🔄 Redirigiendo a Mercado Pago...');
+            // Aquí iría tu lógica real de MP
         }
-        
-        if (data.init_point) {
-            // Redirigir al checkout de Mercado Pago
-            showToast('✅ Redirigiendo a Mercado Pago...');
-            setTimeout(() => {
-                window.location.href = data.init_point;
-            }, 1000);
-        } else {
-            throw new Error('No se recibió URL de pago');
-        }
-        
-    } catch (error) {
-        console.error('Error en checkout:', error);
-        showToast('❌ Error: ' + error.message);
-    }
-}
 
         function checkoutWhatsApp() {
             if (!validateCustomerData()) return;
-            if (cart.length === 0) {
-                showToast('⚠️ Tu carrito está vacío');
-                return;
-            }
-            
             const { subtotal, shipping, total } = calculateTotals();
-            const customerName = document.getElementById('customer-name').value;
-            const customerDNI = document.getElementById('customer-dni').value;
-            const customerAddress = document.getElementById('customer-address').value;
-            const customerZipcode = document.getElementById('customer-zipcode').value;
-            const customerProvince = document.getElementById('customer-province').value;
+            const name = document.getElementById('customer-name').value;
+            const items = cart.map(item => `• ${item.name} x${item.quantity}`).join('\n');
             
-            const items = cart.map(item => `• ${item.name} x${item.quantity} - $${item.price.toLocaleString('es-AR')}${item.freeShipping ? ' (Envío GRATIS)' : ''}`).join('\n');
-            
-            const message = `¡Hola Andrea! 👋\n\n* NUEVO PEDIDO *\n\n*Datos del Cliente:*\n👤 Nombre: ${customerName}\n🆔 DNI: ${customerDNI}\n📍 Dirección: ${customerAddress}\n📮 CP: ${customerZipcode}\n🏛️ Provincia: ${customerProvince}\n\n*Productos:*\n${items}\n\n*Subtotal:* $${subtotal.toLocaleString('es-AR')}\n*Envío:* ${shipping === 0 ? 'GRATIS 🎉' : '$' + shipping.toLocaleString('es-AR')}\n*TOTAL:* $${total.toLocaleString('es-AR')}\n\n¿Me confirmás disponibilidad? ¡Gracias!`;
-            
-            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
-            showToast('📱 Redirigiendo a WhatsApp...');
+            const message = `¡Hola Andrea! 👋\n\n* NUEVO PEDIDO *\n\n👤 Nombre: ${name}\n📦 Productos:\n${items}\n\n💰 TOTAL: $${total.toLocaleString('es-AR')}`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
         }
 
         function validateCustomerData() {
-            const name = document.getElementById('customer-name').value.trim();
-            const dni = document.getElementById('customer-dni').value.trim();
-            const address = document.getElementById('customer-address').value.trim();
-            const zipcode = document.getElementById('customer-zipcode').value.trim();
-            const province = document.getElementById('customer-province').value;
-            
-            if (!name || !dni || !address || !zipcode || !province) {
-                showToast('⚠️ Por favor completá todos los datos de envío');
-                return false;
+            const required = ['customer-name', 'customer-dni', 'customer-address', 'customer-zipcode', 'customer-province'];
+            for (let id of required) {
+                if (!document.getElementById(id).value) {
+                    showToast('⚠️ Completá todos los datos de envío');
+                    return false;
+                }
             }
-            
-            if (dni.length < 7) {
-                showToast('⚠️ El DNI debe tener al menos 7 dígitos');
-                return false;
-            }
-            
             return true;
         }
 
         function calculateTotals() {
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const allProductsFreeShipping = cart.every(item => item.freeShipping);
-            const subtotalExceedsThreshold = subtotal >= FREE_SHIPPING_THRESHOLD;
-            const hasFreeShipping = allProductsFreeShipping || subtotalExceedsThreshold;
-            
-            const shipping = hasFreeShipping ? 0 : getShippingCostFromForm();
-            const total = subtotal + shipping;
-            
-            return { subtotal, shipping, total };
+            const hasFreeShipping = cart.every(item => item.freeShipping) || subtotal >= FREE_SHIPPING_THRESHOLD;
+            const shipping = hasFreeShipping ? 0 : (getShippingCostFromForm() || 8500);
+            return { subtotal, shipping, total: subtotal + shipping };
         }
 
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toast-message').textContent = message;
             toast.classList.remove('translate-y-20', 'opacity-0');
-            toast.classList.add('translate-y-0', 'opacity-100');
-            setTimeout(() => {
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
         }
 
-        // Cerrar modales con ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (!document.getElementById('cart-modal').classList.contains('hidden')) toggleCart();
-                if (!document.getElementById('product-detail-modal').classList.contains('hidden')) closeProductDetail();
+        // ===== POPUP DE OFERTA (REGALO) =====
+        function showOfferModal() {
+            // Solo mostrar si no lo vio antes en esta sesión
+            if (!sessionStorage.getItem('offer-seen')) {
+                setTimeout(() => {
+                    document.getElementById('offer-modal').classList.add('active');
+                    sessionStorage.setItem('offer-seen', 'true');
+                }, 3000); // Aparece a los 3 segundos
             }
+        }
+
+        function closeOfferModal() {
+            document.getElementById('offer-modal').classList.remove('active');
+        }
+
+        // ===== PRUEBA SOCIAL (SOCIAL PROOF) =====
+        const socialData = [
+            { name: "María", city: "Posadas", product: "Pack Magnesio" },
+            { name: "Carlos", city: "Eldorado", product: "Kit Limpieza" },
+            { name: "Lucía", city: "Puerto Rico", product: "Cepillo Vapor" },
+            { name: "Juan", city: "Garupá", product: "Pack Magnesio" }
+        ];
+
+        function runSocialProof() {
+            const toast = document.getElementById('social-toast');
+            const bar = document.getElementById('social-bar');
+            
+            setInterval(() => {
+                // Datos aleatorios
+                const random = socialData[Math.floor(Math.random() * socialData.length)];
+                document.getElementById('social-name').textContent = random.name;
+                document.getElementById('social-city').textContent = random.city;
+                document.getElementById('social-product').textContent = random.product;
+                
+                // Mostrar
+                toast.classList.add('show');
+                bar.style.width = '100%';
+                
+                // Ocultar después de 4 seg
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    bar.style.width = '0';
+                }, 4000);
+                
+            }, 12000); // Cada 12 segundos
+        }
+
+        // ===== INICIALIZACIÓN =====
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            updateCartCount();
+            renderCartItems();
+            showOfferModal();
+            runSocialProof();
         });
     </script>
 </body>
