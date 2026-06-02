@@ -4,8 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Andrea Tienda Online - Suplementos, Hogar y Mascotas | Puerto Rico Misiones</title>
-    <meta name="description" content="Tienda online en Puerto Rico, Misiones. Citrato de magnesio, kits de limpieza y accesorios para mascotas. Envíos a toda Argentina.">
+    <meta name="description" content="Tienda online en Puerto Rico, Misiones. Citrato de magnesio, kits de limpieza y accesorios para mascotas. Envíos a toda Argentina. Compra segura con Mercado Pago.">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1110833054286089');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1110833054286089&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -34,11 +52,9 @@
         .line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
         .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         
-        /* MODALES */
         #cart-modal, #product-detail-modal, #offer-modal { display: none; }
         #cart-modal.active, #product-detail-modal.active, #offer-modal.active { display: flex; }
         
-        /* TOASTS */
         #social-toast { display: none; }
         #social-toast.active { display: flex; }
         #toast { display: none; }
@@ -201,7 +217,7 @@
     </section>
 
     <!-- CARRITO MODAL -->
-    <div id="cart-modal" class="fixed inset-0 z-30">
+    <div id="cart-modal" class="fixed inset-0 z-50">
         <div class="absolute inset-0 bg-black/50" onclick="toggleCart()"></div>
         <div class="absolute right-0 top-0 h-full w-full max-w-2xl bg-white shadow-2xl flex flex-col">
             <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
@@ -239,7 +255,7 @@
         </div>
     </div>
 
-    <!-- PRODUCT DETAIL MODAL CON GALERÍA -->
+    <!-- PRODUCT DETAIL MODAL -->
     <div id="product-detail-modal" class="fixed inset-0 z-50">
         <div class="absolute inset-0 bg-black/50" onclick="closeProductDetail()"></div>
         <div class="absolute inset-4 md:inset-10 bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col">
@@ -251,7 +267,7 @@
         </div>
     </div>
 
-    <!-- POPUP OFERTA (REGALO) -->
+    <!-- POPUP OFERTA -->
     <div id="offer-modal" class="fixed inset-0 z-50">
         <div class="absolute inset-0 bg-black/50" onclick="closeOfferModal()"></div>
         <div class="relative z-10 flex items-center justify-center p-4 h-full">
@@ -262,7 +278,7 @@
                 </div>
                 <div class="w-full md:w-3/5 p-8 flex flex-col justify-center">
                     <span class="inline-block bg-secondary/10 text-secondary text-xs font-bold px-3 py-1 rounded-full mb-3 w-fit">¡Regalo Exclusivo!</span>
-                    <h3 class="text-2xl font-black text-dark mb-2">Porta esponjas <span class="text-primary">GRATIS</span></h3>
+                    <h3 class="text-2xl font-black text-dark mb-2">Portaesponjas <span class="text-primary">GRATIS</span></h3>
                     <p class="text-slate-600 text-sm mb-6">Con la compra de cualquier producto te regalamos este organizador de cocina.</p>
                     <a href="#catalogo" onclick="closeOfferModal()" class="w-full bg-primary hover:bg-red-700 text-white font-bold py-3 rounded-xl text-center transition-all">¡Quiero mi regalo! 🎁</a>
                     <button onclick="closeOfferModal()" class="mt-3 text-sm text-slate-400 hover:text-slate-600 underline">No gracias</button>
@@ -274,8 +290,8 @@
     <!-- SOCIAL TOAST -->
     <div id="social-toast" class="fixed bottom-6 left-6 z-40 bg-white border border-slate-200 shadow-xl rounded-xl p-4 flex items-center gap-3 max-w-xs">
         <div class="w-10 h-10 bg-secondary/10 rounded-full flex items-center justify-center text-secondary flex-shrink-0">
-    <i class="fas fa-shopping-cart"></i>
-</div>
+            <i class="fas fa-shopping-cart"></i>
+        </div>
         <div>
             <p class="text-sm font-semibold"><span id="social-name" class="text-primary">Alguien</span> de <span id="social-city">Misiones</span></p>
             <p class="text-xs text-slate-500">acaba de comprar <span id="social-product" class="font-medium">Magnesio</span></p>
@@ -295,9 +311,17 @@
         const MISIONES_ZIPS = [3300,3311,3315,3316,3317,3318,3319,3320,3321,3322,3324,3325,3326,3328,3329,3330,3332,3334,3336,3340,3342,3344,3346,3348,3350,3352,3353,3354,3355,3356,3357,3358,3359,3360,3361,3364,3365,3367,3368,3369,3370,3372,3374,3376,3377,3379,3380,3381,3382,3384,3385,3386,3387];
 
         let products = [];
-        let cart = JSON.parse(localStorage.getItem('andrea-cart')) || [];
+        let cart = [];
         let currentImageIndex = 0;
         let selectedProduct = null;
+
+        // Cargar carrito desde localStorage de forma segura
+        try {
+            const savedCart = localStorage.getItem('andrea-cart');
+            cart = savedCart ? JSON.parse(savedCart) : [];
+        } catch(e) {
+            cart = [];
+        }
 
         // CARGAR PRODUCTOS
         function loadProducts() {
@@ -307,8 +331,6 @@
                 skipEmptyLines: true,
                 delimiter: '\t',
                 complete: function(results) {
-                    console.log("CSV cargado:", results.data.length, "filas");
-                    
                     products = results.data.map(row => {
                         const norm = {};
                         Object.keys(row).forEach(key => {
@@ -318,23 +340,22 @@
                         
                         return {
                             id: parseInt(norm.id) || 0,
-                            name: norm.name || norm.nombre || 'Producto',
-                            description: norm.description || norm.descripcion || '',
-                            price: parseFloat(norm.price || norm.precio) || 0,
+                            name: norm.name || 'Producto',
+                            description: norm.description || '',
+                            price: parseFloat(norm.price) || 0,
                             images: norm.image ? norm.image.split(/[,;]/).map(img => img.trim()).filter(img => img && img.startsWith('http')) : ['https://via.placeholder.com/400'],
-                            category: norm.category || norm.categoria || 'General',
+                            category: norm.category || 'General',
                             tag: norm.tag || 'OFERTA',
                             tagColor: (norm.tagcolor || 'bg-primary').trim(),
                             freeShipping: (norm.freeshipping || '').toLowerCase() === 'true'
                         };
                     });
                     
-                    console.log("Productos:", products);
                     renderProducts();
+                    injectSchema();
                     document.getElementById('loading-spinner').style.display = 'none';
                 },
                 error: function(err) {
-                    console.error("Error CSV:", err);
                     useFallback();
                 }
             });
@@ -345,7 +366,40 @@
                 { id: 1, name: "Pack x3 Citrato de Magnesio", description: "Mineral esencial.", price: 19900, images: ["https://via.placeholder.com/400"], tag: "NOVEDAD", tagColor: "bg-secondary", freeShipping: false }
             ];
             renderProducts();
+            injectSchema();
             document.getElementById('loading-spinner').style.display = 'none';
+        }
+
+        // SCHEMA JSON-LD PARA SEO
+        function injectSchema() {
+            const schema = {
+                "@context": "https://schema.org",
+                "@type": "ItemList",
+                "name": "Productos Andrea Tienda Online",
+                "description": "Catálogo de productos seleccionados en Puerto Rico, Misiones.",
+                "numberOfItems": products.length,
+                "itemListElement": products.map((p, index) => ({
+                    "@type": "ListItem",
+                    "position": index + 1,
+                    "item": {
+                        "@type": "Product",
+                        "name": p.name,
+                        "description": p.description,
+                        "image": p.images[0],
+                        "offers": {
+                            "@type": "Offer",
+                            "price": p.price,
+                            "priceCurrency": "ARS",
+                            "availability": "https://schema.org/InStock",
+                            "seller": { "@type": "Organization", "name": "Andrea Tienda Online" }
+                        }
+                    }
+                }))
+            };
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.text = JSON.stringify(schema);
+            document.head.appendChild(script);
         }
 
         function renderProducts() {
@@ -375,7 +429,6 @@
             `).join('');
         }
 
-        // GALERÍA DE IMÁGENES RECUPERADA
         function openProductDetail(id) {
             selectedProduct = products.find(x => x.id === id);
             if (!selectedProduct) return;
@@ -436,7 +489,7 @@
                             <i class="fas fa-truck text-secondary"></i>
                             <span>${p.freeShipping ? 'Envío GRATIS' : 'Envío a todo Argentina'}</span>
                         </div>
-                        <button onclick="addToCart(${p.id}); closeProductDetail(); showToast('✅ Agregado')" class="w-full bg-primary hover:bg-red-700 text-white font-bold py-4 rounded-xl">
+                        <button onclick="addToCart(${p.id}); closeProductDetail(); showToast('✅ Agregado'); trackAddToCart(${p.id})" class="w-full bg-primary hover:bg-red-700 text-white font-bold py-4 rounded-xl">
                             <i class="fas fa-cart-plus mr-2"></i>Agregar al carrito
                         </button>
                         <a href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Me interesa: ' + p.name)}" target="_blank" class="w-full bg-[#25D366] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">
@@ -448,34 +501,29 @@
         }
 
         function addToCart(id) {
-    const p = products.find(x => x.id === id);
-    if (!p) return;
-    
-    const existing = cart.find(i => i.id === id);
-    if (existing) {
-        existing.quantity++;
-        // Forzar que la imagen esté actualizada
-        if (!existing.images || existing.images.length === 0) {
-            existing.images = p.images;
+            const p = products.find(x => x.id === id);
+            if (!p) return;
+            
+            const existing = cart.find(i => i.id === id);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({
+                    id: p.id,
+                    name: p.name,
+                    price: p.price,
+                    description: p.description,
+                    images: [...p.images],
+                    tag: p.tag,
+                    tagColor: p.tagColor,
+                    freeShipping: p.freeShipping,
+                    quantity: 1
+                });
+            }
+            saveCart();
+            updateCartUI();
+            showToast(`✅ ${p.name} agregado`);
         }
-    } else {
-        // Clonar con todos sus datos incluyendo las imágenes
-        cart.push({
-            id: p.id,
-            name: p.name,
-            price: p.price,
-            description: p.description,
-            images: [...p.images], // Copia del array
-            tag: p.tag,
-            tagColor: p.tagColor,
-            freeShipping: p.freeShipping,
-            quantity: 1
-        });
-    }
-    saveCart();
-    updateCartUI();
-    showToast(`✅ ${p.name} agregado`);
-}
 
         function removeFromCart(id) {
             cart = cart.filter(i => i.id !== id);
@@ -510,41 +558,41 @@
         }
 
         function renderCartItems() {
-    const c = document.getElementById('cart-items');
-    if (cart.length === 0) {
-        c.innerHTML = '<p class="text-center text-slate-500 py-8">Tu carrito está vacío 🛒</p>';
-        document.getElementById('cart-subtotal').textContent = '$0';
-        document.getElementById('shipping-cost').textContent = '$0';
-        document.getElementById('cart-total').textContent = '$0';
-        return;
-    }
-    c.innerHTML = cart.map(i => {
-        const imgSrc = i.images && i.images[0] ? i.images[0] : 'https://via.placeholder.com/80?text=Producto';
-        return `
-            <div class="flex gap-4 p-4 bg-slate-50 rounded-2xl">
-                <img src="${imgSrc}" class="w-20 h-20 object-cover rounded-xl" onerror="this.src='https://via.placeholder.com/80?text=Sin+imagen'">
-                <div class="flex-1">
-                    <h4 class="font-semibold text-sm">${i.name}</h4>
-                    <p class="text-primary font-bold">$${i.price.toLocaleString('es-AR')}</p>
-                    <div class="flex items-center gap-3 mt-2">
-                        <button onclick="updateQuantity(${i.id},-1)" class="w-7 h-7 bg-slate-200 rounded-lg"><i class="fas fa-minus text-xs"></i></button>
-                        <span>${i.quantity}</span>
-                        <button onclick="updateQuantity(${i.id},1)" class="w-7 h-7 bg-slate-200 rounded-lg"><i class="fas fa-plus text-xs"></i></button>
-                        <button onclick="removeFromCart(${i.id})" class="ml-auto text-slate-400 hover:text-primary"><i class="fas fa-trash"></i></button>
+            const c = document.getElementById('cart-items');
+            if (cart.length === 0) {
+                c.innerHTML = '<p class="text-center text-slate-500 py-8">Tu carrito está vacío 🛒</p>';
+                document.getElementById('cart-subtotal').textContent = '$0';
+                document.getElementById('shipping-cost').textContent = '$0';
+                document.getElementById('cart-total').textContent = '$0';
+                return;
+            }
+            c.innerHTML = cart.map(i => {
+                const imgSrc = i.images && i.images[0] ? i.images[0] : 'https://via.placeholder.com/80?text=Producto';
+                return `
+                    <div class="flex gap-4 p-4 bg-slate-50 rounded-2xl">
+                        <img src="${imgSrc}" class="w-20 h-20 object-cover rounded-xl" onerror="this.src='https://via.placeholder.com/80?text=Sin+imagen'">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-sm">${i.name}</h4>
+                            <p class="text-primary font-bold">$${i.price.toLocaleString('es-AR')}</p>
+                            <div class="flex items-center gap-3 mt-2">
+                                <button onclick="updateQuantity(${i.id},-1)" class="w-7 h-7 bg-slate-200 rounded-lg"><i class="fas fa-minus text-xs"></i></button>
+                                <span>${i.quantity}</span>
+                                <button onclick="updateQuantity(${i.id},1)" class="w-7 h-7 bg-slate-200 rounded-lg"><i class="fas fa-plus text-xs"></i></button>
+                                <button onclick="removeFromCart(${i.id})" class="ml-auto text-slate-400 hover:text-primary"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        `;
-    }).join('');
-    
-    const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-    const hasFree = cart.every(i => i.freeShipping) || sub >= FREE_SHIPPING_THRESHOLD;
-    const ship = hasFree ? 0 : 8500;
-    document.getElementById('cart-subtotal').textContent = '$' + sub.toLocaleString('es-AR');
-    document.getElementById('shipping-cost').textContent = hasFree ? 'GRATIS' : '$' + ship.toLocaleString('es-AR');
-    document.getElementById('cart-total').textContent = '$' + (sub + ship).toLocaleString('es-AR');
-    document.getElementById('free-shipping-notice').classList.toggle('hidden', !hasFree);
-}
+                `;
+            }).join('');
+            
+            const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+            const hasFree = cart.every(i => i.freeShipping) || sub >= FREE_SHIPPING_THRESHOLD;
+            const ship = hasFree ? 0 : 8500;
+            document.getElementById('cart-subtotal').textContent = '$' + sub.toLocaleString('es-AR');
+            document.getElementById('shipping-cost').textContent = hasFree ? 'GRATIS' : '$' + ship.toLocaleString('es-AR');
+            document.getElementById('cart-total').textContent = '$' + (sub + ship).toLocaleString('es-AR');
+            document.getElementById('free-shipping-notice').classList.toggle('hidden', !hasFree);
+        }
 
         function calculateShipping() {
             const cp = parseInt(document.getElementById('customer-zipcode').value) || 0;
@@ -573,13 +621,24 @@
             const sub = cart.reduce((s,i) => s + i.price*i.quantity, 0);
             const hasFree = cart.every(i => i.freeShipping) || sub >= FREE_SHIPPING_THRESHOLD;
             const ship = hasFree ? 0 : 8500;
-            const msg = `¡Hola Andrea!\n\n*NUEVO PEDIDO*\n\n ${name}\n📦 ${items}\n\n💰 TOTAL: $${(sub+ship).toLocaleString('es-AR')}`;
+            const msg = `¡Hola Andrea!\n\n*NUEVO PEDIDO*\n\n👤 ${name}\n ${items}\n\n💰 TOTAL: $${(sub+ship).toLocaleString('es-AR')}`;
             window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+            trackPurchase();
         }
 
         function checkoutMercadoPago() {
             if (!validateData()) return;
-            showToast('🔄 Próximamente...');
+            const sub = cart.reduce((s,i) => s + i.price*i.quantity, 0);
+            const hasFree = cart.every(i => i.freeShipping) || sub >= FREE_SHIPPING_THRESHOLD;
+            const ship = hasFree ? 0 : 8500;
+            const total = sub + ship;
+            
+            showToast('🔄 Redirigiendo a Mercado Pago...');
+            trackPurchase();
+            
+            setTimeout(() => {
+                alert(`Total a pagar: $${total.toLocaleString('es-AR')}\n\nEn producción, aquí se abriría Mercado Pago.`);
+            }, 1000);
         }
 
         function showToast(msg) {
@@ -590,7 +649,6 @@
         }
 
         function showOfferModal() {
-            // SIN sessionStorage para que aparezca siempre al recargar
             setTimeout(() => {
                 document.getElementById('offer-modal').classList.add('active');
             }, 5000);
@@ -616,7 +674,42 @@
                     t.classList.add('active');
                     setTimeout(() => t.classList.remove('active'), 4000);
                 }, 15000);
-            }, 10000); // Empieza 10 seg después
+            }, 10000);
+        }
+
+        // META PIXEL: Track Add to Cart
+        function trackAddToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product && window.fbq) {
+                fbq('track', 'AddToCart', {
+                    content_ids: [product.id],
+                    content_name: product.name,
+                    content_type: 'product',
+                    value: product.price,
+                    currency: 'ARS'
+                });
+            }
+        }
+
+        // META PIXEL: Track Purchase
+        function trackPurchase() {
+            const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+            if (window.fbq && cart.length > 0) {
+                fbq('track', 'Purchase', {
+                    value: total,
+                    currency: 'ARS',
+                    content_ids: cart.map(i => i.id),
+                    num_items: cart.length
+                });
+            }
+        }
+
+        function saveCart() {
+            try {
+                localStorage.setItem('andrea-cart', JSON.stringify(cart));
+            } catch(e) {
+                console.error('Error guardando carrito:', e);
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
