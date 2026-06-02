@@ -3,34 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andrea Tienda Online - Suplementos, Hogar y Mascotas | Puerto Rico Misiones | Envíos a Argentina</title>
-    <meta name="description" content="Tienda online en Puerto Rico, Misiones. Citrato de magnesio, kits de limpieza y accesorios para mascotas. Envíos a toda Argentina. Compra segura con Mercado Pago.">
-    
-    <!-- Favicon -->
+    <title>Andrea Tienda Online - Suplementos, Hogar y Mascotas | Puerto Rico Misiones</title>
+    <meta name="description" content="Tienda online en Puerto Rico, Misiones. Citrato de magnesio, kits de limpieza y accesorios para mascotas. Envíos a toda Argentina.">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- PapaParse para leer Google Sheets -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#DC2626',
-                        secondary: '#16A34A',
-                        dark: '#1E293B',
-                        light: '#F8FAFC'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif']
-                    }
+                    colors: { primary: '#DC2626', secondary: '#16A34A', dark: '#1E293B' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
                 }
             }
         }
@@ -39,531 +26,346 @@
     <style>
         * { scroll-behavior: smooth; }
         .product-card { transition: all 0.3s ease; }
-        .product-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
         .cart-bounce { animation: bounce 0.5s ease; }
-        .modal-overlay { background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
         .badge { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.8} }
+        .line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         
-        /* Estilos Popups */
-        .social-toast { transform: translateX(-120%); transition: transform 0.5s ease-in-out; }
-        .social-toast.show { transform: translateX(0); }
-        .offer-modal { transform: scale(0.8); opacity: 0; transition: all 0.3s ease; pointer-events: none; }
-        .offer-modal.active { transform: scale(1); opacity: 1; pointer-events: auto; }
+        /* MODALES */
+        #cart-modal, #product-detail-modal, #offer-modal { display: none; }
+        #cart-modal.active, #product-detail-modal.active, #offer-modal.active { display: flex; }
+        
+        /* TOASTS */
+        #social-toast { display: none; }
+        #social-toast.active { display: flex; }
+        #toast { display: none; }
+        #toast.active { display: flex; }
     </style>
 </head>
 <body class="font-sans antialiased text-slate-800 bg-white">
 
-    <!-- ========== NAVBAR ========== -->
-    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <a href="#" class="flex items-center gap-3 group">
-                <img src="images/logo.png.webp" alt="Andrea Tienda Logo" class="w-11 h-11 object-contain rounded-xl group-hover:scale-110 transition-transform" onerror="this.src='https://via.placeholder.com/44'">
+                <img src="images/logo.png.webp" alt="Logo" class="w-20 h-20 object-contain rounded-xl" onerror="this.style.display='none'">
                 <div>
                     <span class="text-xl font-extrabold text-dark tracking-tight">ANDREA</span>
                     <span class="text-xl font-extrabold text-secondary">TIENDA</span>
                 </div>
             </a>
-            
             <div class="hidden md:flex items-center gap-8">
-                <a href="#catalogo" class="font-medium text-slate-600 hover:text-primary transition-colors">Catálogo</a>
-                <a href="#como-funciona" class="font-medium text-slate-600 hover:text-primary transition-colors">Cómo Funciona</a>
-                <a href="#testimonios" class="font-medium text-slate-600 hover:text-primary transition-colors">Testimonios</a>
-                <a href="#contacto" class="font-medium text-slate-600 hover:text-primary transition-colors">Contacto</a>
+                <a href="#catalogo" class="font-medium text-slate-600 hover:text-primary">Catálogo</a>
+                <a href="#como-funciona" class="font-medium text-slate-600 hover:text-primary">Cómo Funciona</a>
+                <a href="#testimonios" class="font-medium text-slate-600 hover:text-primary">Testimonios</a>
+                <a href="#contacto" class="font-medium text-slate-600 hover:text-primary">Contacto</a>
             </div>
-            
             <div class="flex items-center gap-4">
-                <button onclick="toggleCart()" class="relative p-3 bg-slate-100 hover:bg-primary hover:text-white rounded-xl transition-all group" aria-label="Ver carrito">
+                <button onclick="toggleCart()" class="relative p-3 bg-slate-100 hover:bg-primary hover:text-white rounded-xl transition-all" aria-label="Carrito">
                     <i class="fas fa-shopping-cart text-lg"></i>
-                    <span id="cart-count" class="absolute -top-2 -right-2 bg-secondary text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">0</span>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-secondary text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center" style="display:none">0</span>
                 </button>
-                
-                <a href="https://wa.me/5493743417659" target="_blank" class="hidden md:flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-5 py-2.5 rounded-xl font-semibold transition-all shadow-lg shadow-green-200/50">
-                    <i class="fab fa-whatsapp text-lg"></i>
-                    <span>Consultar</span>
+                <a href="https://wa.me/5493743417659" target="_blank" class="hidden md:flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg">
+                    <i class="fab fa-whatsapp"></i><span>Consultar</span>
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- ========== HERO SECTION ========== -->
-    <section class="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-red-50 via-white to-green-50"></div>
-        <div class="absolute top-20 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 left-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl"></div>
-        
+    <!-- HERO -->
+    <section class="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden bg-gradient-to-br from-red-50 via-white to-green-50">
         <div class="container mx-auto px-4 relative z-10">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div class="space-y-8 text-center lg:text-left">
                     <div class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold">
                         <i class="fas fa-truck"></i>
-                        <span>Envío GRATIS en productos seleccionados o compras de +$55.000</span>
+                        <span>Envío GRATIS en compras de +$55.000</span>
                     </div>
-                    
                     <h1 class="text-4xl md:text-6xl font-black leading-tight text-dark">
                         Calidad y <span class="text-primary">Bienestar</span><br>
                         en un solo <span class="text-secondary">lugar</span>
                     </h1>
-                    
-                    <p class="text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                    <p class="text-lg md:text-xl text-slate-600 max-w-xl mx-auto lg:mx-0">
                         Descubrí productos seleccionados para hacer tu vida más cómoda. 
                         Compra segura con <strong>Mercado Pago</strong> o coordiná por WhatsApp.
                     </p>
-                    
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <a href="#catalogo" class="inline-flex items-center justify-center gap-3 bg-primary hover:bg-red-700 text-white text-lg font-bold px-8 py-4 rounded-2xl shadow-xl shadow-red-200/50 hover:-translate-y-1 transition-all">
-                            <i class="fas fa-shopping-bag"></i>
-                            Ver Catálogo
+                        <a href="#catalogo" class="inline-flex items-center justify-center gap-3 bg-primary hover:bg-red-700 text-white text-lg font-bold px-8 py-4 rounded-2xl shadow-xl hover:-translate-y-1 transition-all">
+                            <i class="fas fa-shopping-bag"></i> Ver Catálogo
                         </a>
-                        <a href="https://wa.me/5493743417659" target="_blank" class="inline-flex items-center justify-center gap-3 bg-white hover:bg-slate-50 text-slate-700 text-lg font-bold px-8 py-4 rounded-2xl border-2 border-slate-200 hover:border-primary transition-all">
-                            <i class="fab fa-whatsapp text-secondary"></i>
-                            Hablar por WhatsApp
+                        <a href="https://wa.me/5493743417659" target="_blank" class="inline-flex items-center justify-center gap-3 bg-white hover:bg-slate-50 text-slate-700 text-lg font-bold px-8 py-4 rounded-2xl border-2 border-slate-200">
+                            <i class="fab fa-whatsapp text-secondary"></i> Hablar por WhatsApp
                         </a>
                     </div>
-                    
                     <div class="flex flex-wrap gap-6 justify-center lg:justify-start pt-4">
-                        <div class="flex items-center gap-2 text-sm text-slate-600">
-                            <i class="fas fa-shield-check text-secondary"></i>
-                            <span>Compra Segura</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-sm text-slate-600">
-                            <i class="fas fa-rotate-left text-primary"></i>
-                            <span>Garantía de Satisfacción</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-sm text-slate-600">
-                            <i class="fas fa-map-pin text-dark"></i>
-                            <span>Puerto Rico, Misiones</span>
-                        </div>
+                        <div class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-shield-check text-secondary"></i><span>Compra Segura</span></div>
+                        <div class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-rotate-left text-primary"></i><span>Garantía</span></div>
+                        <div class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-map-pin text-dark"></i><span>Puerto Rico, Misiones</span></div>
                     </div>
                 </div>
-                
                 <div class="relative flex justify-center">
-                    <div class="relative">
-                        <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent z-10"></div>
-                        <img src="images/Hero.webp" alt="Productos Andrea Tienda" class="relative z-0 w-80 h-80 md:w-[450px] md:h-[450px] object-cover rounded-[2.5rem] shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500" onerror="this.src='https://via.placeholder.com/450x450?text=Andrea+Tienda'">
-                        <div class="absolute -top-4 -right-4 bg-secondary text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg badge">
-                            🔥 Nuevos Productos
-                        </div>
-                    </div>
+                    <img src="images/Hero.webp" alt="Productos" class="w-80 h-80 md:w-[450px] md:h-[450px] object-cover rounded-[2.5rem] shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500" onerror="this.src='https://via.placeholder.com/450x450?text=Andrea+Tienda'">
+                    <div class="absolute -top-4 -right-4 bg-secondary text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg badge">🔥 Nuevos Productos</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== CÓMO FUNCIONA ========== -->
+    <!-- CÓMO FUNCIONA -->
     <section id="como-funciona" class="py-20 bg-slate-50">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-black text-dark mb-4">Comprá en 3 Pasos <span class="text-primary">Simples</span></h2>
-                <p class="text-slate-600 max-w-2xl mx-auto">Sin complicaciones, sin registros largos. Elegí, pagá y recibí en tu casa.</p>
+                <p class="text-slate-600 max-w-2xl mx-auto">Sin complicaciones. Elegí, pagá y recibí en tu casa.</p>
             </div>
-            
             <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                 <div class="bg-white p-8 rounded-3xl shadow-lg text-center group hover:-translate-y-2 transition-transform">
-                    <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                        <span class="text-2xl font-black text-primary group-hover:text-white">1</span>
-                    </div>
+                    <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-white transition-colors"><span class="text-2xl font-black text-primary group-hover:text-white">1</span></div>
                     <h3 class="text-xl font-bold text-dark mb-3">Elegí tus productos</h3>
-                    <p class="text-slate-600">Explorá nuestro catálogo y agregá al carrito lo que necesites.</p>
+                    <p class="text-slate-600">Explorá nuestro catálogo y agregá al carrito.</p>
                 </div>
-                
                 <div class="bg-white p-8 rounded-3xl shadow-lg text-center group hover:-translate-y-2 transition-transform">
-                    <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                        <span class="text-2xl font-black text-primary group-hover:text-white">2</span>
-                    </div>
+                    <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-white transition-colors"><span class="text-2xl font-black text-primary group-hover:text-white">2</span></div>
                     <h3 class="text-xl font-bold text-dark mb-3">Pagá con Mercado Pago</h3>
-                    <p class="text-slate-600">Checkout seguro con todas las tarjetas, efectivo o transferencia.</p>
+                    <p class="text-slate-600">Checkout seguro con todas las tarjetas o transferencia.</p>
                 </div>
-                
                 <div class="bg-white p-8 rounded-3xl shadow-lg text-center group hover:-translate-y-2 transition-transform">
-                    <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                        <span class="text-2xl font-black text-primary group-hover:text-white">3</span>
-                    </div>
+                    <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-white transition-colors"><span class="text-2xl font-black text-primary group-hover:text-white">3</span></div>
                     <h3 class="text-xl font-bold text-dark mb-3">Recibí en tu casa</h3>
-                    <p class="text-slate-600">Te enviamos a todo Argentina con seguimiento en tiempo real.</p>
+                    <p class="text-slate-600">Envíos a todo Argentina con seguimiento.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== CATÁLOGO DINÁMICO ========== -->
+    <!-- CATÁLOGO -->
     <section id="catalogo" class="py-20 bg-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-black text-dark mb-4">Nuestros <span class="text-primary">Productos</span> Destacados</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto">Seleccionamos lo mejor en tecnología para el hogar y suplementos naturales.</p>
+                <p class="text-slate-600 max-w-2xl mx-auto">Lo mejor en tecnología para el hogar y suplementos naturales.</p>
             </div>
-            
-            <!-- Loading Spinner -->
             <div id="loading-spinner" class="text-center py-12">
                 <i class="fas fa-circle-notch fa-spin text-4xl text-primary"></i>
                 <p class="mt-4 text-slate-500">Cargando catálogo...</p>
             </div>
-
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid"></div>
         </div>
     </section>
 
-    <!-- ========== TESTIMONIOS ========== -->
+    <!-- TESTIMONIOS -->
     <section id="testimonios" class="py-20 bg-gradient-to-br from-red-50 to-green-50">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-black text-dark mb-4">Lo que dicen <span class="text-secondary">nuestros clientes</span></h2>
-                <p class="text-slate-600 max-w-2xl mx-auto">Clientes de toda Argentina que confían en nosotros.</p>
             </div>
-            
             <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="bg-white p-8 rounded-3xl shadow-lg relative">
-                    <i class="fas fa-quote-left text-4xl text-primary/20 absolute top-6 left-6"></i>
-                    <div class="flex gap-1 text-yellow-400 mb-4 pl-8">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-slate-700 italic mb-6 pl-8">"El cepillo a vapor para mascotas es increíble. Mi perra ya no pierde pelo por toda la casa. ¡Llegó súper rápido a Eldorado!"</p>
-                    <div class="flex items-center gap-4 pl-8">
+                <div class="bg-white p-8 rounded-3xl shadow-lg">
+                    <div class="flex gap-1 text-yellow-400 mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-slate-700 italic mb-6">"El cepillo a vapor para mascotas es increíble. ¡Llegó súper rápido a Eldorado!"</p>
+                    <div class="flex items-center gap-4">
                         <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold">M</div>
-                        <div>
-                            <h4 class="font-bold text-dark">Mariana L.</h4>
-                            <p class="text-sm text-slate-500">Eldorado, Misiones</p>
-                        </div>
+                        <div><h4 class="font-bold text-dark">Mariana L.</h4><p class="text-sm text-slate-500">Eldorado, Misiones</p></div>
                     </div>
                 </div>
-                
-                <div class="bg-white p-8 rounded-3xl shadow-lg relative">
-                    <i class="fas fa-quote-left text-4xl text-primary/20 absolute top-6 left-6"></i>
-                    <div class="flex gap-1 text-yellow-400 mb-4 pl-8">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-slate-700 italic mb-6 pl-8">"Compré el Kit de Limpieza y en una semana limpié toda mi casa. Andrea me asesoró por WhatsApp y fue una experiencia 10/10."</p>
-                    <div class="flex items-center gap-4 pl-8">
+                <div class="bg-white p-8 rounded-3xl shadow-lg">
+                    <div class="flex gap-1 text-yellow-400 mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-slate-700 italic mb-6">"Compré el Kit de Limpieza y fue una experiencia 10/10. Andrea me asesoró por WhatsApp."</p>
+                    <div class="flex items-center gap-4">
                         <div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center text-secondary font-bold">J</div>
-                        <div>
-                            <h4 class="font-bold text-dark">Jorge D.</h4>
-                            <p class="text-sm text-slate-500">Posadas, Misiones</p>
-                        </div>
+                        <div><h4 class="font-bold text-dark">Jorge D.</h4><p class="text-sm text-slate-500">Posadas, Misiones</p></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== CONTACTO ========== -->
+    <!-- CONTACTO -->
     <section id="contacto" class="py-20 bg-dark text-white">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-5xl font-black mb-6">¿Lista para hacer tu <span class="text-primary italic">vida más cómoda</span>?</h2>
-            <p class="text-slate-300 max-w-2xl mx-auto mb-10 text-lg">Hacé clic abajo para hablar directamente conmigo por WhatsApp.</p>
-            
+            <p class="text-slate-300 max-w-2xl mx-auto mb-10 text-lg">Hacé clic abajo para hablar directamente conmigo.</p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="https://wa.me/5493743417659?text=¡Hola%20Andrea!%20Quiero%20hacer%20un%20pedido." target="_blank" class="inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20bd5a] text-white text-xl font-bold px-10 py-5 rounded-2xl shadow-2xl shadow-green-900/30 hover:-translate-y-1 transition-all">
-                    <i class="fab fa-whatsapp text-2xl"></i>
-                    Chatear con Andrea ahora
+                <a href="https://wa.me/5493743417659" target="_blank" class="inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20bd5a] text-white text-xl font-bold px-10 py-5 rounded-2xl shadow-2xl hover:-translate-y-1 transition-all">
+                    <i class="fab fa-whatsapp text-2xl"></i> Chatear con Andrea ahora
                 </a>
-                <a href="#catalogo" class="inline-flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white text-xl font-bold px-10 py-5 rounded-2xl border border-white/30 transition-all">
-                    <i class="fas fa-shopping-cart"></i>
-                    Ver todos los productos
+                <a href="#catalogo" class="inline-flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white text-xl font-bold px-10 py-5 rounded-2xl border border-white/30">
+                    <i class="fas fa-shopping-cart"></i> Ver todos los productos
                 </a>
             </div>
-            
             <p class="text-slate-400 text-sm mt-12">© 2026 Andrea Tienda Online · Puerto Rico, Misiones · Argentina</p>
         </div>
     </section>
 
-    <!-- ========== CARRITO MODAL ========== -->
-    <div id="cart-modal" class="fixed inset-0 z-[100] hidden">
-        <div class="modal-overlay absolute inset-0" onclick="toggleCart()"></div>
-        <div class="absolute right-0 top-0 h-full w-full max-w-2xl bg-white shadow-2xl flex flex-col transform transition-transform duration-300 translate-x-full" id="cart-panel">
-            <!-- Header -->
+    <!-- CARRITO MODAL -->
+    <div id="cart-modal" class="fixed inset-0 z-30">
+        <div class="absolute inset-0 bg-black/50" onclick="toggleCart()"></div>
+        <div class="absolute right-0 top-0 h-full w-full max-w-2xl bg-white shadow-2xl flex flex-col">
             <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                 <h3 class="text-xl font-bold text-dark">Tu Carrito</h3>
-                <button onclick="toggleCart()" class="p-2 hover:bg-slate-100 rounded-lg transition-colors">
-                    <i class="fas fa-times text-lg"></i>
-                </button>
+                <button onclick="toggleCart()" class="p-2 hover:bg-slate-100 rounded-lg"><i class="fas fa-times text-lg"></i></button>
             </div>
-            
-            <!-- Cart Items -->
             <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
-            
-            <!-- Footer con formulario -->
             <div class="p-6 border-t border-slate-100 bg-slate-50 space-y-4 max-h-[50vh] overflow-y-auto">
-                <!-- Datos del Cliente -->
-                <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-3">
-                    <h4 class="font-bold text-dark flex items-center gap-2">
-                        <i class="fas fa-user text-primary"></i>
-                        Datos de Envío (Obligatorio)
-                    </h4>
-                    
-                    <div class="grid grid-cols-1 gap-3">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Nombre Completo *</label>
-                            <input type="text" id="customer-name" placeholder="Ej: María González" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:border-primary" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">DNI *</label>
-                            <input type="number" id="customer-dni" placeholder="Ej: 12345678" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:border-primary" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Dirección Completa *</label>
-                            <input type="text" id="customer-address" placeholder="Calle, número, piso/depto, localidad" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:border-primary" required>
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">Código Postal *</label>
-                                <input type="number" id="customer-zipcode" placeholder="Ej: 3384" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:border-primary" onchange="calculateShippingByZip()" required>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">Provincia *</label>
-                                <select id="customer-province" onchange="calculateShippingByZip()" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:border-primary" required>
-                                    <option value="">Seleccionar...</option>
-                                    <option value="misiones">Misiones</option>
-                                    <option value="buenos_aires">Buenos Aires</option>
-                                    <option value="cordoba">Córdoba</option>
-                                    <option value="santa_fe">Santa Fe</option>
-                                    <option value="otra">Otra provincia</option>
-                                </select>
-                            </div>
-                        </div>
+                <div class="bg-white p-4 rounded-xl border space-y-3">
+                    <h4 class="font-bold text-dark flex items-center gap-2"><i class="fas fa-user text-primary"></i> Datos de Envío</h4>
+                    <input type="text" id="customer-name" placeholder="Nombre Completo *" class="w-full p-2 border rounded-lg">
+                    <input type="number" id="customer-dni" placeholder="DNI *" class="w-full p-2 border rounded-lg">
+                    <input type="text" id="customer-address" placeholder="Dirección *" class="w-full p-2 border rounded-lg">
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="number" id="customer-zipcode" placeholder="CP *" class="w-full p-2 border rounded-lg" onchange="calculateShipping()">
+                        <select id="customer-province" onchange="calculateShipping()" class="w-full p-2 border rounded-lg">
+                            <option value="">Provincia *</option>
+                            <option value="misiones">Misiones</option>
+                            <option value="buenos_aires">Buenos Aires</option>
+                            <option value="cordoba">Córdoba</option>
+                            <option value="santa_fe">Santa Fe</option>
+                            <option value="otra">Otra</option>
+                        </select>
                     </div>
                 </div>
-                
-                <!-- Resumen de compra -->
-                <div class="space-y-2 pt-2">
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-slate-600">Subtotal:</span>
-                        <span id="cart-subtotal" class="font-medium">$0</span>
-                    </div>
-                    
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-slate-600">Envío:</span>
-                        <div class="text-right">
-                            <span id="shipping-original" class="line-through text-slate-500 text-xs hidden">$0</span>
-                            <span id="shipping-cost" class="font-medium">$0</span>
-                        </div>
-                    </div>
-                    
-                    <div id="free-shipping-notice" class="hidden bg-green-100 text-green-800 px-3 py-2 rounded-lg text-xs font-semibold text-center">
-                        🎉 ¡Tenés envío GRATIS!
-                    </div>
-                    
-                    <div class="flex justify-between items-center text-lg pt-2 border-t border-slate-200">
-                        <span class="font-medium text-slate-600">Total:</span>
-                        <span id="cart-total" class="font-black text-2xl text-primary">$0</span>
-                    </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between"><span>Subtotal:</span><span id="cart-subtotal" class="font-medium">$0</span></div>
+                    <div class="flex justify-between"><span>Envío:</span><span id="shipping-cost" class="font-medium">$0</span></div>
+                    <div id="free-shipping-notice" class="hidden bg-green-100 text-green-800 px-3 py-2 rounded-lg text-xs font-semibold text-center">🎉 ¡Envío GRATIS!</div>
+                    <div class="flex justify-between text-lg pt-2 border-t"><span>Total:</span><span id="cart-total" class="font-black text-2xl text-primary">$0</span></div>
                 </div>
-                
-                <!-- Botones de pago -->
-                <div class="space-y-3 pt-2">
-                    <button onclick="checkoutMercadoPago()" class="w-full bg-[#009EE3] hover:bg-[#008ecc] text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-200/50">
-                        <i class="fas fa-credit-card"></i>
-                        Pagar con Mercado Pago
-                    </button>
-                    
-                    <button onclick="checkoutWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 transition-all">
-                        <i class="fab fa-whatsapp"></i>
-                        Finalizar pedido por WhatsApp
-                    </button>
-                </div>
-                
-                <p class="text-xs text-slate-500 text-center">
-                    <i class="fas fa-lock"></i> Pago seguro con encriptación SSL
-                </p>
+                <button onclick="checkoutMercadoPago()" class="w-full bg-[#009EE3] text-white font-bold py-4 rounded-xl"><i class="fas fa-credit-card mr-2"></i> Pagar con Mercado Pago</button>
+                <button onclick="checkoutWhatsApp()" class="w-full bg-[#25D366] text-white font-bold py-4 rounded-xl"><i class="fab fa-whatsapp mr-2"></i> Finalizar por WhatsApp</button>
             </div>
         </div>
     </div>
 
-    <!-- ========== PRODUCT DETAIL MODAL ========== -->
-    <div id="product-detail-modal" class="fixed inset-0 z-[100] hidden">
-        <div class="modal-overlay absolute inset-0" onclick="closeProductDetail()"></div>
+    <!-- PRODUCT DETAIL MODAL CON GALERÍA -->
+    <div id="product-detail-modal" class="fixed inset-0 z-50">
+        <div class="absolute inset-0 bg-black/50" onclick="closeProductDetail()"></div>
         <div class="absolute inset-4 md:inset-10 bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col">
-            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <h3 class="text-xl font-bold text-dark">Detalle del Producto</h3>
-                <button onclick="closeProductDetail()" class="p-2 hover:bg-slate-100 rounded-lg transition-colors">
-                    <i class="fas fa-times text-lg"></i>
-                </button>
+            <div class="p-6 border-b flex justify-between items-center bg-slate-50">
+                <h3 class="text-xl font-bold">Detalle del Producto</h3>
+                <button onclick="closeProductDetail()" class="p-2 hover:bg-slate-100 rounded-lg"><i class="fas fa-times"></i></button>
             </div>
             <div id="product-detail-content" class="flex-1 overflow-y-auto p-6"></div>
         </div>
     </div>
 
-    <!-- ========== POPUP DE OFERTA (REGALO) ========== -->
-    <div id="offer-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <div class="modal-overlay absolute inset-0" onclick="closeOfferModal()"></div>
-        <div class="offer-modal relative bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col md:flex-row">
-            <button onclick="closeOfferModal()" class="absolute top-4 right-4 z-10 p-2 bg-white/80 rounded-full hover:bg-white transition-colors">
-                <i class="fas fa-times text-dark"></i>
-            </button>
-            
-            <!-- Imagen del regalo -->
-            <div class="w-full md:w-2/5 bg-primary/10 flex items-center justify-center p-8">
-                <img src="images/porta-esponja-silicona.jpeg" alt="Porta Esponjas de Regalo" class="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-xl">
-            </div>
-            
-            <!-- Contenido -->
-            <div class="w-full md:w-3/5 p-8 text-center md:text-left flex flex-col justify-center">
-                <span class="inline-block bg-secondary/10 text-secondary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3 w-fit mx-auto md:mx-0">
-                    ¡Regalo Exclusivo!
-                </span>
-                <h3 class="text-2xl font-black text-dark mb-2">
-                    Portaesponjas de Silicona <span class="text-primary">GRATIS</span>
-                </h3>
-                <p class="text-slate-600 text-sm mb-6">
-                    Por la compra de cualquier producto de nuestro catálogo, te regalamos este práctico organizador para tu cocina. ¡Aprovechá!
-                </p>
-                <a href="#catalogo" onclick="closeOfferModal()" class="w-full bg-primary hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg">
-                    ¡Quiero mi regalo! 🎁
-                </a>
-                <button onclick="closeOfferModal()" class="mt-3 text-sm text-slate-400 hover:text-slate-600 underline">
-                    No gracias, no quiero regalos
-                </button>
+    <!-- POPUP OFERTA (REGALO) -->
+    <div id="offer-modal" class="fixed inset-0 z-50">
+        <div class="absolute inset-0 bg-black/50" onclick="closeOfferModal()"></div>
+        <div class="relative z-10 flex items-center justify-center p-4 h-full">
+            <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col md:flex-row">
+                <button onclick="closeOfferModal()" class="absolute top-4 right-4 z-10 p-2 bg-white/80 rounded-full"><i class="fas fa-times"></i></button>
+                <div class="w-full md:w-2/5 bg-primary/10 flex items-center justify-center p-8">
+                    <img src="images/porta-esponja-silicona.jpeg" alt="Regalo" class="w-32 h-32 object-contain" onerror="this.src='https://via.placeholder.com/200?text=REGALO'">
+                </div>
+                <div class="w-full md:w-3/5 p-8 flex flex-col justify-center">
+                    <span class="inline-block bg-secondary/10 text-secondary text-xs font-bold px-3 py-1 rounded-full mb-3 w-fit">¡Regalo Exclusivo!</span>
+                    <h3 class="text-2xl font-black text-dark mb-2">Porta esponjas <span class="text-primary">GRATIS</span></h3>
+                    <p class="text-slate-600 text-sm mb-6">Con la compra de cualquier producto te regalamos este organizador de cocina.</p>
+                    <a href="#catalogo" onclick="closeOfferModal()" class="w-full bg-primary hover:bg-red-700 text-white font-bold py-3 rounded-xl text-center transition-all">¡Quiero mi regalo! 🎁</a>
+                    <button onclick="closeOfferModal()" class="mt-3 text-sm text-slate-400 hover:text-slate-600 underline">No gracias</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- ========== PRUEBA SOCIAL (SOCIAL TOAST) ========== -->
-    <div id="social-toast" class="social-toast fixed bottom-6 left-6 z-[90] bg-white border border-slate-200 shadow-xl rounded-xl p-4 flex items-center gap-3 max-w-xs">
-        <div class="relative">
-            <img src="https://via.placeholder.com/40" alt="Avatar" class="w-10 h-10 rounded-full bg-slate-200">
-            <div class="absolute -bottom-1 -right-1 bg-secondary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
-                <i class="fas fa-check text-[10px]"></i>
-            </div>
-        </div>
+    <!-- SOCIAL TOAST -->
+    <div id="social-toast" class="fixed bottom-6 left-6 z-40 bg-white border border-slate-200 shadow-xl rounded-xl p-4 flex items-center gap-3 max-w-xs">
+        <div class="w-10 h-10 bg-secondary/10 rounded-full flex items-center justify-center text-secondary flex-shrink-0">
+    <i class="fas fa-shopping-cart"></i>
+</div>
         <div>
-            <p class="text-sm font-semibold text-dark"><span id="social-name" class="text-primary">Alguien</span> de <span id="social-city" class="text-dark">Misiones</span></p>
+            <p class="text-sm font-semibold"><span id="social-name" class="text-primary">Alguien</span> de <span id="social-city">Misiones</span></p>
             <p class="text-xs text-slate-500">acaba de comprar <span id="social-product" class="font-medium">Magnesio</span></p>
-            <p class="text-[10px] text-slate-400 mt-0.5">Hace <span id="social-time">5</span> minutos</p>
         </div>
-        <div class="absolute bottom-0 left-0 h-1 bg-primary rounded-bl-xl transition-all duration-[4000ms] w-0" id="social-bar"></div>
     </div>
 
-    <!-- ========== TOAST GENÉRICO ========== -->
-    <div id="toast" class="fixed bottom-6 right-6 z-[110] bg-dark text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300">
+    <!-- TOAST MENSAJE -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-dark text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3">
         <i class="fas fa-check-circle text-secondary text-xl"></i>
-        <span id="toast-message">Producto agregado al carrito</span>
+        <span id="toast-message">Producto agregado</span>
     </div>
 
-    <!-- ========== JAVASCRIPT ========== -->
     <script>
-        // ===== CONFIGURACIÓN =====
-        const WHATSAPP_NUMBER = "5493743417659";
-        
-        // ⚠️ LINK DE TU GOOGLE SHEET CSV (limpio, sin &gid=0)
-        const GOOGLE_SHEET_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoZ0kwkcEmLN98SV-Dz0mP9wIHsLf40S_KyYm2u9ugDP-soYFHpUyXU8YK6Y79xQyctRjLBu1sEz4l/pub?output=csv"; 
-
+        const WHATSAPP = "5493743417659";
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoZ0kwkcEmLN98SV-Dz0mP9wIHsLf40S_KyYm2u9ugDP-soYFHpUyXU8YK6Y79xQyctRjLBu1sEz4l/pub?output=tsv";
         const FREE_SHIPPING_THRESHOLD = 55000;
-        const MISIONES_ZIP_CODES = [3300, 3311, 3315, 3316, 3317, 3318, 3319, 3320, 3321, 3322, 3324, 3325, 3326, 3328, 3329, 3330, 3332, 3334, 3336, 3340, 3342, 3344, 3346, 3348, 3350, 3352, 3353, 3354, 3355, 3356, 3357, 3358, 3359, 3360, 3361, 3364, 3365, 3367, 3368, 3369, 3370, 3372, 3374, 3376, 3377, 3379, 3380, 3381, 3382, 3384, 3385, 3386, 3387];
+        const MISIONES_ZIPS = [3300,3311,3315,3316,3317,3318,3319,3320,3321,3322,3324,3325,3326,3328,3329,3330,3332,3334,3336,3340,3342,3344,3346,3348,3350,3352,3353,3354,3355,3356,3357,3358,3359,3360,3361,3364,3365,3367,3368,3369,3370,3372,3374,3376,3377,3379,3380,3381,3382,3384,3385,3386,3387];
 
-        // ===== ESTADO =====
         let products = [];
         let cart = JSON.parse(localStorage.getItem('andrea-cart')) || [];
-        let selectedProduct = null;
         let currentImageIndex = 0;
+        let selectedProduct = null;
 
-        // ===== CARGAR PRODUCTOS DESDE GOOGLE SHEETS =====
+        // CARGAR PRODUCTOS
         function loadProducts() {
-            if (GOOGLE_SHEET_CSV.includes("PEGAR_TU_LINK_AQUI")) {
-                console.warn("⚠️ No configuraste el link de Google Sheets. Cargando datos locales de ejemplo.");
-                useFallbackProducts();
-                return;
-            }
-
-            Papa.parse(GOOGLE_SHEET_CSV, {
+            Papa.parse(CSV_URL, {
                 download: true,
                 header: true,
+                skipEmptyLines: true,
+                delimiter: '\t',
                 complete: function(results) {
-                    products = results.data.map(row => ({
-                        id: parseInt(row.id),
-                        name: row.name,
-                        description: row.description,
-                        price: parseFloat(row.price),
-                        images: row.image ? row.image.split(',').map(img => img.trim()) : ['https://via.placeholder.com/400'],
-                        category: row.category,
-                        tag: row.tag,
-                        tagColor: row.tagColor || 'bg-primary',
-                        freeShipping: row.freeShipping === 'true'
-                    }));
+                    console.log("CSV cargado:", results.data.length, "filas");
+                    
+                    products = results.data.map(row => {
+                        const norm = {};
+                        Object.keys(row).forEach(key => {
+                            const cleanKey = key.toLowerCase().trim();
+                            norm[cleanKey] = row[key] ? row[key].toString().trim() : '';
+                        });
+                        
+                        return {
+                            id: parseInt(norm.id) || 0,
+                            name: norm.name || norm.nombre || 'Producto',
+                            description: norm.description || norm.descripcion || '',
+                            price: parseFloat(norm.price || norm.precio) || 0,
+                            images: norm.image ? norm.image.split(/[,;]/).map(img => img.trim()).filter(img => img && img.startsWith('http')) : ['https://via.placeholder.com/400'],
+                            category: norm.category || norm.categoria || 'General',
+                            tag: norm.tag || 'OFERTA',
+                            tagColor: (norm.tagcolor || 'bg-primary').trim(),
+                            freeShipping: (norm.freeshipping || '').toLowerCase() === 'true'
+                        };
+                    });
+                    
+                    console.log("Productos:", products);
                     renderProducts();
-                    injectSchema();
                     document.getElementById('loading-spinner').style.display = 'none';
                 },
                 error: function(err) {
-                    console.error("Error cargando CSV", err);
-                    useFallbackProducts();
+                    console.error("Error CSV:", err);
+                    useFallback();
                 }
             });
         }
 
-        // Datos de respaldo por si falla el Sheet
-        function useFallbackProducts() {
+        function useFallback() {
             products = [
-                { id: 1, name: "Pack x3 Citrato de Magnesio", description: "Mineral esencial para el bienestar diario.", price: 19900, images: ["https://via.placeholder.com/400"], tag: "NOVEDAD", tagColor: "bg-secondary", freeShipping: false },
-                { id: 2, name: "Kit Limpieza Pro", description: "Limpieza express inalámbrica.", price: 34900, images: ["https://via.placeholder.com/400"], tag: "ENVÍO GRATIS", tagColor: "bg-primary", freeShipping: true },
-                { id: 3, name: "Cepillo Vapor Mascotas", description: "Elimina pelo suelto sin tirones.", price: 29599, images: ["https://via.placeholder.com/400"], tag: "ENVÍO GRATIS", tagColor: "bg-purple-600", freeShipping: true }
+                { id: 1, name: "Pack x3 Citrato de Magnesio", description: "Mineral esencial.", price: 19900, images: ["https://via.placeholder.com/400"], tag: "NOVEDAD", tagColor: "bg-secondary", freeShipping: false }
             ];
             renderProducts();
-            injectSchema();
             document.getElementById('loading-spinner').style.display = 'none';
         }
 
-        // ===== SEO: INYECTAR SCHEMA (JSON-LD) =====
-        function injectSchema() {
-            const schema = {
-                "@context": "https://schema.org",
-                "@type": "ItemList",
-                "name": "Productos Andrea Tienda Online",
-                "description": "Catálogo de productos seleccionados en Puerto Rico, Misiones.",
-                "numberOfItems": products.length,
-                "itemListElement": products.map((p, index) => ({
-                    "@type": "ListItem",
-                    "position": index + 1,
-                    "item": {
-                        "@type": "Product",
-                        "name": p.name,
-                        "description": p.description,
-                        "image": p.images[0],
-                        "offers": {
-                            "@type": "Offer",
-                            "price": p.price,
-                            "priceCurrency": "ARS",
-                            "availability": "https://schema.org/InStock",
-                            "seller": {
-                                "@type": "Organization",
-                                "name": "Andrea Tienda Online"
-                            }
-                        }
-                    }
-                }))
-            };
-            
-            const script = document.createElement('script');
-            script.type = 'application/ld+json';
-            script.text = JSON.stringify(schema);
-            document.head.appendChild(script);
-        }
-
-        // ===== RENDERIZAR PRODUCTOS =====
         function renderProducts() {
             const grid = document.getElementById('products-grid');
-            grid.innerHTML = products.map(product => `
-                <div class="product-card bg-white border border-slate-100 rounded-3xl p-6 hover:shadow-2xl hover:border-primary/30 transition-all cursor-pointer" onclick="openProductDetail(${product.id})">
-                    <div class="relative mb-6 overflow-hidden rounded-2xl aspect-square">
-                        <img src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" loading="lazy">
-                        <span class="absolute top-4 left-4 ${product.tagColor} text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-tighter shadow-lg">${product.tag}</span>
-                        <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <span class="bg-white text-dark px-6 py-3 rounded-full font-bold text-sm">Ver detalles</span>
-                        </div>
+            grid.innerHTML = products.map(p => `
+                <div class="product-card bg-white border border-slate-100 rounded-3xl overflow-hidden hover:shadow-2xl cursor-pointer" onclick="openProductDetail(${p.id})">
+                    <div class="relative aspect-square overflow-hidden bg-slate-100">
+                        <img src="${p.images[0]}" alt="${p.name}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" loading="lazy" onerror="this.src='https://via.placeholder.com/400?text=Producto'">
+                        <span class="absolute top-4 left-4 ${p.tagColor} text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase shadow-lg">${p.tag}</span>
                     </div>
-                    <div class="space-y-3">
-                        <h3 class="text-lg font-bold text-dark">${product.name}</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed line-clamp-2">${product.description}</p>
+                    <div class="p-6 space-y-3">
+                        <h3 class="text-lg font-bold text-dark line-clamp-1">${p.name}</h3>
+                        <p class="text-slate-600 text-sm line-clamp-2">${p.description}</p>
                         <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-                            <span class="text-2xl font-black text-primary">$${product.price.toLocaleString('es-AR')}</span>
+                            <span class="text-2xl font-black text-primary">$${p.price.toLocaleString('es-AR')}</span>
                             <div class="flex gap-2">
-                                <button onclick="event.stopPropagation(); addToCart(${product.id})" class="p-3 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-xl transition-colors">
+                                <button onclick="event.stopPropagation(); addToCart(${p.id})" class="p-3 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-xl transition-colors">
                                     <i class="fas fa-cart-plus"></i>
                                 </button>
-                                <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`¡Hola Andrea! Me interesa: ${product.name}`)}" target="_blank" class="p-3 bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366] hover:text-white rounded-xl transition-colors" onclick="event.stopPropagation()">
+                                <a href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Hola, me interesa: ' + p.name)}" target="_blank" class="p-3 bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366] hover:text-white rounded-xl transition-colors" onclick="event.stopPropagation()">
                                     <i class="fab fa-whatsapp"></i>
                                 </a>
                             </div>
@@ -573,19 +375,17 @@
             `).join('');
         }
 
-        // ===== PRODUCT DETAIL =====
-        function openProductDetail(productId) {
-            selectedProduct = products.find(p => p.id === productId);
+        // GALERÍA DE IMÁGENES RECUPERADA
+        function openProductDetail(id) {
+            selectedProduct = products.find(x => x.id === id);
             if (!selectedProduct) return;
             currentImageIndex = 0;
             renderProductDetail();
-            document.getElementById('product-detail-modal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+            document.getElementById('product-detail-modal').classList.add('active');
         }
 
         function closeProductDetail() {
-            document.getElementById('product-detail-modal').classList.add('hidden');
-            document.body.style.overflow = '';
+            document.getElementById('product-detail-modal').classList.remove('active');
             selectedProduct = null;
         }
 
@@ -599,297 +399,229 @@
 
         function renderProductDetail() {
             if (!selectedProduct) return;
+            const p = selectedProduct;
             const container = document.getElementById('product-detail-content');
-            const currentImage = selectedProduct.images[currentImageIndex];
             
             container.innerHTML = `
                 <div class="grid md:grid-cols-2 gap-8 max-h-[80vh] overflow-y-auto">
                     <div class="space-y-4">
                         <div class="relative aspect-square rounded-2xl overflow-hidden bg-slate-100">
-                            <img src="${currentImage}" alt="${selectedProduct.name}" class="w-full h-full object-cover">
-                            ${selectedProduct.images.length > 1 ? `
+                            <img src="${p.images[currentImageIndex]}" alt="${p.name}" class="w-full h-full object-cover">
+                            ${p.images.length > 1 ? `
                                 <button onclick="changeImage(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg">
-                                    <i class="fas fa-chevron-left text-dark"></i>
+                                    <i class="fas fa-chevron-left"></i>
                                 </button>
                                 <button onclick="changeImage(1)" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg">
-                                    <i class="fas fa-chevron-right text-dark"></i>
+                                    <i class="fas fa-chevron-right"></i>
                                 </button>
                             ` : ''}
                         </div>
-                        ${selectedProduct.images.length > 1 ? `
+                        ${p.images.length > 1 ? `
                             <div class="flex gap-2 overflow-x-auto">
-                                ${selectedProduct.images.map((img, idx) => `
+                                ${p.images.map((img, idx) => `
                                     <button onclick="currentImageIndex = ${idx}; renderProductDetail()" class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${idx === currentImageIndex ? 'border-primary' : 'border-slate-200'}">
                                         <img src="${img}" class="w-full h-full object-cover">
                                     </button>
                                 `).join('')}
                             </div>
                         ` : ''}
+                        <p class="text-xs text-slate-500 text-center">${currentImageIndex + 1} de ${p.images.length} fotos</p>
                     </div>
-                    <div class="space-y-6">
-                        <div>
-                            <span class="${selectedProduct.tagColor} text-white text-xs font-bold px-3 py-1 rounded-full">${selectedProduct.tag}</span>
-                            <h2 class="text-3xl font-black text-dark mt-3">${selectedProduct.name}</h2>
-                            <p class="text-3xl font-black text-primary mt-2">$${selectedProduct.price.toLocaleString('es-AR')}</p>
+                    <div class="space-y-4">
+                        <span class="${p.tagColor} text-white text-xs font-bold px-3 py-1 rounded-full">${p.tag}</span>
+                        <h2 class="text-3xl font-black">${p.name}</h2>
+                        <p class="text-3xl font-black text-primary">$${p.price.toLocaleString('es-AR')}</p>
+                        <p class="text-slate-600">${p.description}</p>
+                        <div class="flex items-center gap-3 text-slate-600">
+                            <i class="fas fa-truck text-secondary"></i>
+                            <span>${p.freeShipping ? 'Envío GRATIS' : 'Envío a todo Argentina'}</span>
                         </div>
-                        <p class="text-slate-600 leading-relaxed">${selectedProduct.description}</p>
-                        <div class="space-y-3 pt-4 border-t border-slate-100">
-                            <div class="flex items-center gap-3 text-slate-600">
-                                <i class="fas fa-truck text-secondary"></i>
-                                <span>${selectedProduct.freeShipping ? 'Envío GRATIS incluido' : 'Envío a todo Argentina'}</span>
-                            </div>
-                            <div class="flex items-center gap-3 text-slate-600">
-                                <i class="fas fa-shield-check text-secondary"></i>
-                                <span>Compra 100% segura</span>
-                            </div>
-                        </div>
-                        <div class="space-y-3 pt-6">
-                            <button onclick="addToCart(${selectedProduct.id}); closeProductDetail(); showToast('✅ Agregado al carrito')" class="w-full bg-primary hover:bg-red-700 text-white font-bold py-4 rounded-xl transition-all">
-                                <i class="fas fa-cart-plus mr-2"></i> Agregar al carrito
-                            </button>
-                            <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`¡Hola Andrea! Me interesa: ${selectedProduct.name}`)}" target="_blank" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2">
-                                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-                            </a>
-                        </div>
+                        <button onclick="addToCart(${p.id}); closeProductDetail(); showToast('✅ Agregado')" class="w-full bg-primary hover:bg-red-700 text-white font-bold py-4 rounded-xl">
+                            <i class="fas fa-cart-plus mr-2"></i>Agregar al carrito
+                        </button>
+                        <a href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Me interesa: ' + p.name)}" target="_blank" class="w-full bg-[#25D366] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp"></i>Consultar por WhatsApp
+                        </a>
                     </div>
                 </div>
             `;
         }
 
-        // ===== CARRITO =====
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            
-            const existingItem = cart.find(item => item.id === productId);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ ...product, quantity: 1 });
-            }
-            
+        function addToCart(id) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    
+    const existing = cart.find(i => i.id === id);
+    if (existing) {
+        existing.quantity++;
+        // Forzar que la imagen esté actualizada
+        if (!existing.images || existing.images.length === 0) {
+            existing.images = p.images;
+        }
+    } else {
+        // Clonar con todos sus datos incluyendo las imágenes
+        cart.push({
+            id: p.id,
+            name: p.name,
+            price: p.price,
+            description: p.description,
+            images: [...p.images], // Copia del array
+            tag: p.tag,
+            tagColor: p.tagColor,
+            freeShipping: p.freeShipping,
+            quantity: 1
+        });
+    }
+    saveCart();
+    updateCartUI();
+    showToast(`✅ ${p.name} agregado`);
+}
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
             saveCart();
-            updateCartCount();
+            updateCartUI();
             renderCartItems();
-            showToast(`✅ ${product.name} agregado al carrito`);
-            
-            const cartBtn = document.querySelector('[aria-label="Ver carrito"]');
-            cartBtn.classList.add('cart-bounce');
-            setTimeout(() => cartBtn.classList.remove('cart-bounce'), 500);
         }
 
-        function updateCartCount() {
-            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        function updateQuantity(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity <= 0) removeFromCart(id);
+            else { saveCart(); updateCartUI(); renderCartItems(); }
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((s, i) => s + i.quantity, 0);
             const badge = document.getElementById('cart-count');
             badge.textContent = count;
-            badge.classList.toggle('opacity-0', count === 0);
-            badge.classList.toggle('opacity-100', count > 0);
+            badge.style.display = count > 0 ? 'flex' : 'none';
         }
 
-        function calculateShippingByZip() {
-            const zipcode = parseInt(document.getElementById('customer-zipcode').value) || 0;
-            const province = document.getElementById('customer-province').value;
-            if (MISIONES_ZIP_CODES.includes(zipcode) || province === 'misiones') {
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            } else {
+                renderCartItems();
+                modal.classList.add('active');
+            }
+        }
+
+        function renderCartItems() {
+    const c = document.getElementById('cart-items');
+    if (cart.length === 0) {
+        c.innerHTML = '<p class="text-center text-slate-500 py-8">Tu carrito está vacío 🛒</p>';
+        document.getElementById('cart-subtotal').textContent = '$0';
+        document.getElementById('shipping-cost').textContent = '$0';
+        document.getElementById('cart-total').textContent = '$0';
+        return;
+    }
+    c.innerHTML = cart.map(i => {
+        const imgSrc = i.images && i.images[0] ? i.images[0] : 'https://via.placeholder.com/80?text=Producto';
+        return `
+            <div class="flex gap-4 p-4 bg-slate-50 rounded-2xl">
+                <img src="${imgSrc}" class="w-20 h-20 object-cover rounded-xl" onerror="this.src='https://via.placeholder.com/80?text=Sin+imagen'">
+                <div class="flex-1">
+                    <h4 class="font-semibold text-sm">${i.name}</h4>
+                    <p class="text-primary font-bold">$${i.price.toLocaleString('es-AR')}</p>
+                    <div class="flex items-center gap-3 mt-2">
+                        <button onclick="updateQuantity(${i.id},-1)" class="w-7 h-7 bg-slate-200 rounded-lg"><i class="fas fa-minus text-xs"></i></button>
+                        <span>${i.quantity}</span>
+                        <button onclick="updateQuantity(${i.id},1)" class="w-7 h-7 bg-slate-200 rounded-lg"><i class="fas fa-plus text-xs"></i></button>
+                        <button onclick="removeFromCart(${i.id})" class="ml-auto text-slate-400 hover:text-primary"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+    const hasFree = cart.every(i => i.freeShipping) || sub >= FREE_SHIPPING_THRESHOLD;
+    const ship = hasFree ? 0 : 8500;
+    document.getElementById('cart-subtotal').textContent = '$' + sub.toLocaleString('es-AR');
+    document.getElementById('shipping-cost').textContent = hasFree ? 'GRATIS' : '$' + ship.toLocaleString('es-AR');
+    document.getElementById('cart-total').textContent = '$' + (sub + ship).toLocaleString('es-AR');
+    document.getElementById('free-shipping-notice').classList.toggle('hidden', !hasFree);
+}
+
+        function calculateShipping() {
+            const cp = parseInt(document.getElementById('customer-zipcode').value) || 0;
+            const prov = document.getElementById('customer-province').value;
+            if (MISIONES_ZIPS.includes(cp) || prov === 'misiones') {
                 document.getElementById('customer-province').value = 'misiones';
             }
             renderCartItems();
         }
 
-        function renderCartItems() {
-            const container = document.getElementById('cart-items');
-            const subtotalEl = document.getElementById('cart-subtotal');
-            const shippingCostEl = document.getElementById('shipping-cost');
-            const shippingOriginalEl = document.getElementById('shipping-original');
-            const freeShippingNotice = document.getElementById('free-shipping-notice');
-            
-            if (cart.length === 0) {
-                container.innerHTML = '<p class="text-center text-slate-500 py-8">Tu carrito está vacío 🛒</p>';
-                subtotalEl.textContent = '$0';
-                shippingCostEl.textContent = '$0';
-                shippingOriginalEl.classList.add('hidden');
-                freeShippingNotice.classList.add('hidden');
-                updateTotal(0, 0);
-                return;
-            }
-            
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const allProductsFreeShipping = cart.every(item => item.freeShipping);
-            const subtotalExceedsThreshold = subtotal >= FREE_SHIPPING_THRESHOLD;
-            const hasFreeShipping = allProductsFreeShipping || subtotalExceedsThreshold;
-            
-            let shippingCost = 0;
-            let shippingOriginal = 0;
-            
-            if (hasFreeShipping) {
-                shippingCost = 0;
-                shippingOriginal = getShippingCostFromForm() || 8500;
-                freeShippingNotice.classList.remove('hidden');
-                shippingOriginalEl.classList.remove('hidden');
-            } else {
-                shippingCost = getShippingCostFromForm() || 8500;
-                freeShippingNotice.classList.add('hidden');
-                shippingOriginalEl.classList.add('hidden');
-            }
-            
-            container.innerHTML = cart.map(item => `
-                <div class="flex gap-4 p-4 bg-slate-50 rounded-2xl">
-                    <img src="${item.images[0]}" alt="${item.name}" class="w-20 h-20 object-cover rounded-xl">
-                    <div class="flex-1">
-                        <h4 class="font-semibold text-dark text-sm">${item.name}</h4>
-                        <p class="text-primary font-bold">$${item.price.toLocaleString('es-AR')}</p>
-                        ${item.freeShipping ? '<p class="text-xs text-green-600 font-semibold"><i class="fas fa-check-circle"></i> Envío GRATIS</p>' : ''}
-                        <div class="flex items-center gap-3 mt-2">
-                            <button onclick="updateQuantity(${item.id}, -1)" class="w-7 h-7 bg-slate-200 hover:bg-slate-300 rounded-lg flex items-center justify-center transition-colors">
-                                <i class="fas fa-minus text-xs"></i>
-                            </button>
-                            <span class="font-medium">${item.quantity}</span>
-                            <button onclick="updateQuantity(${item.id}, 1)" class="w-7 h-7 bg-slate-200 hover:bg-slate-300 rounded-lg flex items-center justify-center transition-colors">
-                                <i class="fas fa-plus text-xs"></i>
-                            </button>
-                            <button onclick="removeFromCart(${item.id})" class="ml-auto text-slate-400 hover:text-primary transition-colors">
-                                <i class="fas fa-trash text-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-            
-            subtotalEl.textContent = `$${subtotal.toLocaleString('es-AR')}`;
-            shippingCostEl.textContent = shippingCost === 0 ? 'GRATIS' : `$${shippingCost.toLocaleString('es-AR')}`;
-            shippingOriginalEl.textContent = shippingOriginal > 0 ? `$${shippingOriginal.toLocaleString('es-AR')}` : '$0';
-            
-            updateTotal(subtotal, shippingCost);
-        }
-
-        function getShippingCostFromForm() {
-            const province = document.getElementById('customer-province').value;
-            const shippingMap = { misiones: 8500, buenos_aires: 13500, cordoba: 13500, santa_fe: 13500, otra: 15000 };
-            return shippingMap[province];
-        }
-
-        function updateTotal(subtotal, shipping) {
-            document.getElementById('cart-total').textContent = `$${(subtotal + shipping).toLocaleString('es-AR')}`;
-        }
-
-        function updateQuantity(productId, change) {
-            const item = cart.find(i => i.id === productId);
-            if (!item) return;
-            item.quantity += change;
-            if (item.quantity <= 0) removeFromCart(productId);
-            else { saveCart(); updateCartCount(); renderCartItems(); }
-        }
-
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            saveCart(); updateCartCount(); renderCartItems();
-            showToast('Producto eliminado');
-        }
-
-        function saveCart() { localStorage.setItem('andrea-cart', JSON.stringify(cart)); }
-
-        function toggleCart() {
-            const modal = document.getElementById('cart-modal');
-            const panel = document.getElementById('cart-panel');
-            if (modal.classList.contains('hidden')) {
-                modal.classList.remove('hidden');
-                setTimeout(() => panel.classList.remove('translate-x-full'), 10);
-                document.body.style.overflow = 'hidden';
-                renderCartItems();
-            } else {
-                panel.classList.add('translate-x-full');
-                setTimeout(() => modal.classList.add('hidden'), 300);
-                document.body.style.overflow = '';
-            }
-        }
-
-        function checkoutMercadoPago() {
-            if (!validateCustomerData()) return;
-            showToast('🔄 Redirigiendo a Mercado Pago...');
-        }
-
-        function checkoutWhatsApp() {
-            if (!validateCustomerData()) return;
-            const { subtotal, shipping, total } = calculateTotals();
-            const name = document.getElementById('customer-name').value;
-            const items = cart.map(item => `• ${item.name} x${item.quantity}`).join('\n');
-            
-            const message = `¡Hola Andrea! 👋\n\n* NUEVO PEDIDO *\n\n👤 Nombre: ${name}\n📦 Productos:\n${items}\n\n TOTAL: $${total.toLocaleString('es-AR')}`;
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        function validateCustomerData() {
-            const required = ['customer-name', 'customer-dni', 'customer-address', 'customer-zipcode', 'customer-province'];
-            for (let id of required) {
-                if (!document.getElementById(id).value) {
-                    showToast('⚠️ Completá todos los datos de envío');
+        function validateData() {
+            const req = ['customer-name','customer-dni','customer-address','customer-zipcode','customer-province'];
+            for (let id of req) {
+                if (!document.getElementById(id).value.trim()) {
+                    showToast('⚠️ Completá todos los datos');
                     return false;
                 }
             }
             return true;
         }
 
-        function calculateTotals() {
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const hasFreeShipping = cart.every(item => item.freeShipping) || subtotal >= FREE_SHIPPING_THRESHOLD;
-            const shipping = hasFreeShipping ? 0 : (getShippingCostFromForm() || 8500);
-            return { subtotal, shipping, total: subtotal + shipping };
+        function checkoutWhatsApp() {
+            if (!validateData()) return;
+            const name = document.getElementById('customer-name').value;
+            const items = cart.map(i => `• ${i.name} x${i.quantity}`).join('\n');
+            const sub = cart.reduce((s,i) => s + i.price*i.quantity, 0);
+            const hasFree = cart.every(i => i.freeShipping) || sub >= FREE_SHIPPING_THRESHOLD;
+            const ship = hasFree ? 0 : 8500;
+            const msg = `¡Hola Andrea!\n\n*NUEVO PEDIDO*\n\n ${name}\n📦 ${items}\n\n💰 TOTAL: $${(sub+ship).toLocaleString('es-AR')}`;
+            window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-message').textContent = message;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+        function checkoutMercadoPago() {
+            if (!validateData()) return;
+            showToast('🔄 Próximamente...');
         }
 
-        // ===== POPUP DE OFERTA (REGALO) =====
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = msg;
+            t.classList.add('active');
+            setTimeout(() => t.classList.remove('active'), 3000);
+        }
+
         function showOfferModal() {
-            if (!sessionStorage.getItem('offer-seen')) {
-                setTimeout(() => {
-                    document.getElementById('offer-modal').classList.add('active');
-                    sessionStorage.setItem('offer-seen', 'true');
-                }, 3000);
-            }
+            // SIN sessionStorage para que aparezca siempre al recargar
+            setTimeout(() => {
+                document.getElementById('offer-modal').classList.add('active');
+            }, 5000);
         }
 
         function closeOfferModal() {
             document.getElementById('offer-modal').classList.remove('active');
         }
 
-        // ===== PRUEBA SOCIAL (SOCIAL PROOF) =====
-        const socialData = [
-            { name: "María", city: "Posadas", product: "Pack Magnesio" },
-            { name: "Carlos", city: "Eldorado", product: "Kit Limpieza" },
-            { name: "Lucía", city: "Puerto Rico", product: "Cepillo Vapor" },
-            { name: "Juan", city: "Garupá", product: "Pack Magnesio" }
-        ];
-
         function runSocialProof() {
-            const toast = document.getElementById('social-toast');
-            const bar = document.getElementById('social-bar');
-            
-            setInterval(() => {
-                const random = socialData[Math.floor(Math.random() * socialData.length)];
-                document.getElementById('social-name').textContent = random.name;
-                document.getElementById('social-city').textContent = random.city;
-                document.getElementById('social-product').textContent = random.product;
-                
-                toast.classList.add('show');
-                bar.style.width = '100%';
-                
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                    bar.style.width = '0';
-                }, 4000);
-                
-            }, 12000);
+            const data = [
+                { name: "María", city: "Posadas", product: "Pack Magnesio" },
+                { name: "Carlos", city: "Eldorado", product: "Kit Limpieza" },
+                { name: "Lucía", city: "Puerto Rico", product: "Cepillo Vapor" }
+            ];
+            setTimeout(() => {
+                setInterval(() => {
+                    const r = data[Math.floor(Math.random() * data.length)];
+                    document.getElementById('social-name').textContent = r.name;
+                    document.getElementById('social-city').textContent = r.city;
+                    document.getElementById('social-product').textContent = r.product;
+                    const t = document.getElementById('social-toast');
+                    t.classList.add('active');
+                    setTimeout(() => t.classList.remove('active'), 4000);
+                }, 15000);
+            }, 10000); // Empieza 10 seg después
         }
 
-        // ===== INICIALIZACIÓN =====
         document.addEventListener('DOMContentLoaded', () => {
             loadProducts();
-            updateCartCount();
-            renderCartItems();
+            updateCartUI();
             showOfferModal();
             runSocialProof();
         });
