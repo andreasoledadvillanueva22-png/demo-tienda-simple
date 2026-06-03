@@ -626,20 +626,47 @@
             trackPurchase();
         }
 
-        function checkoutMercadoPago() {
-            if (!validateData()) return;
-            const sub = cart.reduce((s,i) => s + i.price*i.quantity, 0);
-            const hasFree = cart.every(i => i.freeShipping) || sub >= FREE_SHIPPING_THRESHOLD;
-            const ship = hasFree ? 0 : 8500;
-            const total = sub + ship;
-            
-            showToast('🔄 Redirigiendo a Mercado Pago...');
-            trackPurchase();
-            
-            setTimeout(() => {
-                alert(`Total a pagar: $${total.toLocaleString('es-AR')}\n\nEn producción, aquí se abriría Mercado Pago.`);
-            }, 1000);
+        async function checkoutMercadoPago() {
+    if (!validateData()) return;
+    
+    const name = document.getElementById('customer-name').value;
+    const sub = cart.reduce((s,i) => s + i.price*i.quantity, 0);
+    const hasFree = cart.every(i => i.freeShipping) || sub >= FREE_SHIPPING_THRESHOLD;
+    const ship = hasFree ? 0 : 8500;
+    
+    showToast('🔄 Conectando con Mercado Pago...');
+    
+    try {
+        const response = await fetch('/.netlify/functions/create-preference', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                items: cart.map(i => ({
+                    name: i.name,
+                    quantity: i.quantity,
+                    price: i.price
+                })),
+                customer: { name: name, email: '' }
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error || data.message || 'Error al crear la preferencia');
         }
+        
+        // Registrar la compra en el Pixel de Meta
+        trackPurchase();
+        
+        // Redirigir al checkout de Mercado Pago
+        window.location.href = data.init_point;
+        
+    } catch (error) {
+        console.error('Error MP:', error);
+        showToast('❌ Error: ' + error.message);
+    }
+}
 
         function showToast(msg) {
             const t = document.getElementById('toast');
